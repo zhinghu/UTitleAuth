@@ -39,8 +39,12 @@ public class TitleListeners implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void OnDisconnect(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		Main.SecurePlayerRegister.remove(p.getUniqueId());
-		Main.SecurePlayerLogin.remove(p.getUniqueId());
+		if (Main.SecurePlayerRegister.contains(p.getUniqueId())) {
+			Main.SecurePlayerRegister.remove(p.getUniqueId());
+		}
+		if (Main.SecurePlayerLogin.contains(p.getUniqueId())) {
+			Main.SecurePlayerLogin.remove(p.getUniqueId());
+		}
 	}
 	
 	public static void SendTitleNoRegister(Player player) {
