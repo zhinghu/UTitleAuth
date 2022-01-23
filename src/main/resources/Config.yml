@@ -1,0 +1,25 @@
+TITLES:
+  NO-REGISTER:
+    TITLE: '&aPlease Register'
+    SUBTITLE: '&eUse /register password password'
+
+  NO-LOGIN:
+    TITLE: '&aPlease Login'
+    SUBTITLE: '&eUse /login password'    
+
+  ON-REGISTER:
+    TITLE: '&aREGISTER COMPLETE'
+    SUBTITLE: '&eRegister sucellyfull'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      
+  ON-LOGIN:
+    TITLE: '&aLOGIN COMPLETE'
+    SUBTITLE: '&eLogin sucellyfull'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      

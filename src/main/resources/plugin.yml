@@ -1,0 +1,6 @@
+name: UTitleAuth
+version: 1.0-BETA
+author: [BrunoAvixdub]
+main: com.github.undeadlydev.UTitleAuth.Main
+api-version: 1.13
+depend: [AuthMe]
