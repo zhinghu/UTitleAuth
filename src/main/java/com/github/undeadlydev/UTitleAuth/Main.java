@@ -19,34 +19,28 @@ import com.google.common.collect.Sets;
 public class Main  extends JavaPlugin{
 
 	private static Main instance;
+	public RunUtils titlerunutils;
+	public static ConfigUtils cfg;
+	public static int SERVER_VERSION;
 	
 	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
-	
 	public final static Set<UUID> SecurePlayerLogin = Sets.newHashSet();
 	
     public static JavaPlugin getInt() {
         return (JavaPlugin)instance;
     }
-    public RunUtils titlerunutils;
-    
-    public static ConfigUtils cfg;
     
     public static ConfigUtils GetCfg() {
         return cfg;
     }
     
-    public static int SERVER_VERSION;
-    
     public void onEnable() {
     	SERVER_VERSION = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].replace(".", "#").split("#")[1]);
         if (SERVER_VERSION > 15)
         ConsoleUtils.getLoggs("&7-----------------------------------", true);
-        LoadHooks();
-    	
-    	ConsoleUtils.getLoggs(" ", true);
         super.onEnable();
         instance = this;
-        
+        LoadHooks();
         cfg = new ConfigUtils("Config");
         
         this.titlerunutils = new RunUtils(this);
