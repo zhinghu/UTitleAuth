@@ -48,9 +48,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleNoRegister(Player player) {
-		
-		String Title = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"));
-		String subTitle = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"));
+		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
+		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);
 		
 		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
 		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
@@ -71,9 +70,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleNoLogin(Player player) {
-		
-		String Title = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.NO-LOGIN.TITLE"));
-		String subTitle = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"));
+		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.TITLE"), player);
+		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"), player);
 		
 		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
 		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
@@ -94,9 +92,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleOnRegister(Player player) {
-		
-		String Title = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.ON-REGISTER.TITLE"));
-		String subTitle = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.ON-REGISTER.SUBTITLE"));
+		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-REGISTER.TITLE"), player);
+		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-REGISTER.SUBTITLE"), player);
 		
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
@@ -119,9 +116,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleOnLogin(Player player) {
-		
-		String Title = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.ON-LOGIN.TITLE"));
-		String subTitle = ChatUtils.colorCodes(Main.GetCfg().getString("TITLES.ON-LOGIN.SUBTITLE"));
+		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-LOGIN.TITLE"), player);
+		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-LOGIN.SUBTITLE"), player);
 		
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");

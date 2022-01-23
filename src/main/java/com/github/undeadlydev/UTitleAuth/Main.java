@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.undeadlydev.UTitleAuth.Listeners.TitleListeners;
 import com.github.undeadlydev.UTitleAuth.Runneable.RunUtils;
+import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConfigUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
 import com.google.common.collect.Sets;
@@ -40,12 +41,7 @@ public class Main  extends JavaPlugin{
     	SERVER_VERSION = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].replace(".", "#").split("#")[1]);
         if (SERVER_VERSION > 15)
         ConsoleUtils.getLoggs("&7-----------------------------------", true);
-        if (Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
-    		ConsoleUtils.getLoggs("&fPlugin &aAuthMe &aHooked Successfully!", true);
-    	} else {
-    		ConsoleUtils.getError("&fPlugin &cAuthMe &cHooked not found!", true);
-	    	Bukkit.getPluginManager().disablePlugin((Plugin)this);
-    	}
+        LoadHooks();
     	
     	ConsoleUtils.getLoggs(" ", true);
         super.onEnable();
@@ -72,6 +68,22 @@ public class Main  extends JavaPlugin{
       
     public int getServerVersionNumber() {
         return SERVER_VERSION;
+    }
+    
+    public void LoadHooks() {
+        if (Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
+    		ConsoleUtils.getLoggs("&fPlugin &aAuthMe &aHooked Successfully!", true);
+    	} else {
+    		ConsoleUtils.getError("&fPlugin &cAuthMe &cHooked not found!", true);
+	    	Bukkit.getPluginManager().disablePlugin((Plugin)this);
+    	}
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            ConsoleUtils.getLoggs("&fPlugin &ePlaceholderAPI &aHooked Successfully!", true);
+            ChatUtils.placeholderAPI(true);
+        } else {
+        	ConsoleUtils.getError("&fPlugin &ePlaceholderAPI &cIs hooked not found!", true);
+        	ChatUtils.placeholderAPI(false);
+        }
     }
     
     public void onDisable() {
