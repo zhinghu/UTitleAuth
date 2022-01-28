@@ -15,14 +15,12 @@ public class RunUtils {
   
     public RunUtils(Main plugin) {
         this.plugin = plugin;
-        int interval = Integer.valueOf(3);
-        timers.add(Integer.valueOf((new RunLogin(plugin)).runTaskTimer((Plugin)plugin, 0L, interval).getTaskId())); 
+        timers.add(Integer.valueOf((new RunLogin(plugin)).runTaskTimer((Plugin)plugin, 0L, 5L).getTaskId())); 
     }
   
     public void reload() {
         cancelTimer();
-        int interval = Integer.valueOf(3);
-        timers.add(Integer.valueOf((new RunLogin(this.plugin)).runTaskTimer((Plugin)this.plugin, 0L, interval).getTaskId()));
+        timers.add(Integer.valueOf((new RunLogin(this.plugin)).runTaskTimer((Plugin)this.plugin, 0L, 5L).getTaskId()));
     }
   
     public static void cancelTimer() {

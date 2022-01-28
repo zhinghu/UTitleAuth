@@ -6,19 +6,26 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.undeadlydev.UTitleAuth.Main;
+import com.github.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.TitleAPI;
+import com.github.undeadlydev.UTitleAuth.Utils.VersionUtils;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class TitleListeners implements Listener {
+	private Main plugin;
+	 private final Integer timeleft;
 
-	public Main plugin;
-	
 	public TitleListeners(Main plugin) {
 		this.plugin = plugin;
+		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -29,10 +36,13 @@ public class TitleListeners implements Listener {
 			//NO REGISTER
 			SendTitleNoRegister(p);
 			Main.SecurePlayerRegister.add(p.getUniqueId());
+			this.SendAcNoRegister(p);
 		} else {
 			//NO LOGIN
 			SendTitleNoLogin(p);
 	        Main.SecurePlayerLogin.add(p.getUniqueId());
+	        SendAcNoLogin(p);
+	        
 		}
 	}
 	
@@ -47,12 +57,97 @@ public class TitleListeners implements Listener {
 		}
 	}
 	
-	public static void SendTitleNoRegister(Player player) {
-		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
-		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);
+	private void SendAcNoRegister(Player player) {
+        final int[] time = {this.timeleft};
 		
-		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
-		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			new BukkitRunnable() {
+				@SuppressWarnings("deprecation")
+				@Override
+				public void run() {
+					if (!Main.SecurePlayerRegister.contains(player.getUniqueId())) {
+			        	this.cancel();
+			        	return;
+					}
+					if (time[0] <= 0) {
+						cancel();
+	                    return;
+					}
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
+					time[0]--;
+				}
+			}.runTaskTimer(this.plugin, 0L, 20L);
+			
+		} else {
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					if (!Main.SecurePlayerRegister.contains(player.getUniqueId())) {
+			        	this.cancel();
+			        	return;
+					}
+					if (time[0] <= 0) {
+						cancel();
+	                    return;
+					}
+					ActionBarAPI.sendActionBar(player, ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
+					time[0]--;
+				}
+			}.runTaskTimer(this.plugin, 0L, 20L);
+		}	
+	}
+	
+	private void SendAcNoLogin(Player player) {
+		final int[] time = {this.timeleft};
+		
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			new BukkitRunnable() {
+				@SuppressWarnings("deprecation")
+				@Override
+				public void run() {
+					if (!Main.SecurePlayerLogin.contains(player.getUniqueId())) {
+			        	this.cancel();
+			        	return;
+					}
+					if (time[0] <= 0) {
+						cancel();
+	                    return;
+					}
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
+					time[0]--;
+				}
+			}.runTaskTimer(this.plugin, 0L, 20L);			
+		} else {
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					if (!Main.SecurePlayerLogin.contains(player.getUniqueId())) {
+			        	this.cancel();
+			        	return;
+					}
+					if (time[0] <= 0) {
+						cancel();
+	                    return;
+					}
+					ActionBarAPI.sendActionBar(player, ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
+					time[0]--;
+				}
+
+			}.runTaskTimer(this.plugin, 0L, 20L);
+		}	
+	}
+	
+
+	
+	public static void SendTitleNoRegister(Player player) {
+
+		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
+		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);		
+		
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
+			
 		} else {
 			TitleAPI title = new TitleAPI();
 			title.setTitle(Title);
@@ -64,7 +159,9 @@ public class TitleListeners implements Listener {
 	    
 	        title.sendTimes(player);
 	        title.sendTitle(player);
-	        title.sendSubTitle(player);	
+	        title.sendSubTitle(player);
+	        
+	        
 		}
 
 	}
@@ -73,7 +170,7 @@ public class TitleListeners implements Listener {
 		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.TITLE"), player);
 		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"), player);
 		
-		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 		} else {
 			TitleAPI title = new TitleAPI();
@@ -98,7 +195,7 @@ public class TitleListeners implements Listener {
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
         int FadeOut = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEOUT");
-		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
+        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
 			TitleAPI title = new TitleAPI();
@@ -122,7 +219,8 @@ public class TitleListeners implements Listener {
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");
         int FadeOut = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEOUT");
-		if (((Main) Main.getInt()).getServerVersionNumber() > 10) {
+        
+        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
 			TitleAPI title = new TitleAPI();

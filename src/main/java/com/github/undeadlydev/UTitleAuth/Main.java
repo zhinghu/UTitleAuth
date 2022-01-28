@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -21,7 +22,6 @@ public class Main  extends JavaPlugin{
 	private static Main instance;
 	public RunUtils titlerunutils;
 	public static ConfigUtils cfg;
-	public static int SERVER_VERSION;
 	
 	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
 	public final static Set<UUID> SecurePlayerLogin = Sets.newHashSet();
@@ -34,9 +34,13 @@ public class Main  extends JavaPlugin{
         return cfg;
     }
     
+    public static FileConfiguration getOtherConfig() {
+        Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
+        FileConfiguration config = p.getConfig();
+        return config;
+    }
+    
     public void onEnable() {
-    	SERVER_VERSION = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].replace(".", "#").split("#")[1]);
-        if (SERVER_VERSION > 15)
         ConsoleUtils.getLoggs("&7-----------------------------------", true);
         super.onEnable();
         instance = this;
@@ -58,10 +62,6 @@ public class Main  extends JavaPlugin{
         ConsoleUtils.getLoggs("&fThanks for use my plugin :D", true);
         ConsoleUtils.getLoggs(" ", true);
         ConsoleUtils.getLoggs("&7-----------------------------------", true); 
-    }
-      
-    public int getServerVersionNumber() {
-        return SERVER_VERSION;
     }
     
     public void LoadHooks() {
