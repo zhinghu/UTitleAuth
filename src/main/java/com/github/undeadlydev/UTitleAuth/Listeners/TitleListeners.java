@@ -149,17 +149,13 @@ public class TitleListeners implements Listener {
 			player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 			
 		} else {
-			TitleAPI title = new TitleAPI();
-			title.setTitle(Title);
-	        title.setSubTitle(subTitle);
 	        
-	        title.setFadeIn(0);
-	        title.setStay(999999999);
-	        title.setFadeOut(999999999);
-	    
-	        title.sendTimes(player);
-	        title.sendTitle(player);
-	        title.sendSubTitle(player);
+	        int fadeIn = (0);
+		    int stay = (999999999);
+		    int fadeOut = (20);
+		    Title = ChatUtils.replace(Title, player);
+		    subTitle = ChatUtils.replace(subTitle, player);
+		    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
 	        
 	        
 		}
@@ -173,17 +169,13 @@ public class TitleListeners implements Listener {
 		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 		} else {
-			TitleAPI title = new TitleAPI();
-			title.setTitle(Title);
-	        title.setSubTitle(subTitle);
+			int fadeIn = (0);
+		    int stay = (999999999);
+		    int fadeOut = (20);
+		    Title = ChatUtils.replace(Title, player);
+		    subTitle = ChatUtils.replace(subTitle, player);
+		    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
 	        
-	        title.setFadeIn(0);
-	        title.setStay(999999999);
-	        title.setFadeOut(999999999);
-	    
-	        title.sendTimes(player);
-	        title.sendTitle(player);
-	        title.sendSubTitle(player);
 		}
 
 	}
@@ -198,17 +190,9 @@ public class TitleListeners implements Listener {
         if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-			TitleAPI title = new TitleAPI();
-			title.setTitle(Title);
-	        title.setSubTitle(subTitle);
-	        
-	        title.setFadeIn(Fadein);
-	        title.setStay(Stay);
-	        title.setFadeOut(FadeOut);
-	    
-	        title.sendTimes(player);
-	        title.sendTitle(player);
-	        title.sendSubTitle(player);	
+		    Title = ChatUtils.replace(Title, player);
+		    subTitle = ChatUtils.replace(subTitle, player);
+		    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 		}
 	}
 	
@@ -223,17 +207,9 @@ public class TitleListeners implements Listener {
         if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-			TitleAPI title = new TitleAPI();
-			title.setTitle(Title);
-	        title.setSubTitle(subTitle);
-	        
-	        title.setFadeIn(Fadein);
-	        title.setStay(Stay);
-	        title.setFadeOut(FadeOut);
-	    
-	        title.sendTimes(player);
-	        title.sendTitle(player);
-	        title.sendSubTitle(player);	
+		    Title = ChatUtils.replace(Title, player);
+		    subTitle = ChatUtils.replace(subTitle, player);
+		    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 		}
 	}
 }

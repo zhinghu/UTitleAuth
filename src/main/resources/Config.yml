@@ -37,3 +37,7 @@ ACTIONBAR:
   ON_LOGIN:
     STAY: 30
     MESSAGE: '&aWELCOME BACK %player_name%'
+
+MESSAGE:
+  RELOAD: '&cThe config was reloaded.'
+  NO_AUTHORIZED: '&cYou are not authorized for this.'

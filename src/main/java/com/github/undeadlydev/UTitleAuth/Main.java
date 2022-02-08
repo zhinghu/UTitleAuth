@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
 import com.github.undeadlydev.UTitleAuth.Listeners.TitleListeners;
 import com.github.undeadlydev.UTitleAuth.Runneable.RunUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
@@ -49,6 +50,7 @@ public class Main  extends JavaPlugin{
         
         this.titlerunutils = new RunUtils(this);
         
+        new UTitleAuthCommand(this);
         PluginManager pm = getServer().getPluginManager();
         
         pm.registerEvents((Listener)new TitleListeners(this), (Plugin)this);
