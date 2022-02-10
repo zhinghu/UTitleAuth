@@ -73,7 +73,7 @@ public class TitleListeners implements Listener {
 						cancel();
 	                    return;
 					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
 					time[0]--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);
@@ -91,7 +91,7 @@ public class TitleListeners implements Listener {
 						cancel();
 	                    return;
 					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
+					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
 					time[0]--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);
@@ -114,7 +114,7 @@ public class TitleListeners implements Listener {
 						cancel();
 	                    return;
 					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
 					time[0]--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);			
@@ -130,7 +130,7 @@ public class TitleListeners implements Listener {
 						cancel();
 	                    return;
 					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
+					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
 					time[0]--;
 				}
 
@@ -141,20 +141,16 @@ public class TitleListeners implements Listener {
 
 	
 	public static void SendTitleNoRegister(Player player) {
-
-		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
-		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);		
-		
+		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
+		String subTitle = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);
 		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 			player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
-			
 		} else {
-	        
 	        int fadeIn = (0);
 		    int stay = (999999999);
 		    int fadeOut = (20);
-		    Title = ChatUtils.replace(Title, player);
-		    subTitle = ChatUtils.replace(subTitle, player);
+		    Title = ChatUtils.replaceXColor(Title, player);
+		    subTitle = ChatUtils.replaceXColor(subTitle, player);
 		    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
 	        
 	        
@@ -163,8 +159,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleNoLogin(Player player) {
-		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.TITLE"), player);
-		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"), player);
+		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.NO-LOGIN.TITLE"), player);
+		String subTitle = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"), player);
 		
 		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
@@ -172,8 +168,8 @@ public class TitleListeners implements Listener {
 			int fadeIn = (0);
 		    int stay = (999999999);
 		    int fadeOut = (20);
-		    Title = ChatUtils.replace(Title, player);
-		    subTitle = ChatUtils.replace(subTitle, player);
+		    Title = ChatUtils.replaceXColor(Title, player);
+		    subTitle = ChatUtils.replaceXColor(subTitle, player);
 		    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
 	        
 		}
@@ -181,8 +177,8 @@ public class TitleListeners implements Listener {
 	}
 	
 	public static void SendTitleOnRegister(Player player) {
-		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-REGISTER.TITLE"), player);
-		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-REGISTER.SUBTITLE"), player);
+		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.ON-REGISTER.TITLE"), player);
+		String subTitle = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.ON-REGISTER.SUBTITLE"), player);
 		
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
@@ -190,15 +186,15 @@ public class TitleListeners implements Listener {
         if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-		    Title = ChatUtils.replace(Title, player);
-		    subTitle = ChatUtils.replace(subTitle, player);
+		    Title = ChatUtils.replaceXColor(Title, player);
+		    subTitle = ChatUtils.replaceXColor(subTitle, player);
 		    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 		}
 	}
 	
 	public static void SendTitleOnLogin(Player player) {
-		String Title = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-LOGIN.TITLE"), player);
-		String subTitle = ChatUtils.replace(Main.GetCfg().getString("TITLES.ON-LOGIN.SUBTITLE"), player);
+		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.ON-LOGIN.TITLE"), player);
+		String subTitle = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.ON-LOGIN.SUBTITLE"), player);
 		
 		int Fadein = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
         int Stay = Main.GetCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");
@@ -207,8 +203,8 @@ public class TitleListeners implements Listener {
         if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-		    Title = ChatUtils.replace(Title, player);
-		    subTitle = ChatUtils.replace(subTitle, player);
+		    Title = ChatUtils.replaceXColor(Title, player);
+		    subTitle = ChatUtils.replaceXColor(subTitle, player);
 		    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 		}
 	}

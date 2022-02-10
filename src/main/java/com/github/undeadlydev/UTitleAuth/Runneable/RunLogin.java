@@ -45,7 +45,7 @@ public class RunLogin extends BukkitRunnable {
 	@SuppressWarnings("deprecation")
 	public void SendAcOnRegister(Player player) {
 		
-		String actionbarr = ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.ON_REGISTER.MESSAGE"), player);
+		String actionbarr = ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.ON_REGISTER.MESSAGE"), player);
 		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
 		} else {
@@ -56,7 +56,7 @@ public class RunLogin extends BukkitRunnable {
 	@SuppressWarnings("deprecation")
 	public void SendAcOnLogin(Player player) {
 		
-		String actionbarr = ChatUtils.replace(Main.GetCfg().getString("ACTIONBAR.ON_LOGIN.MESSAGE"), player);
+		String actionbarr = ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.ON_LOGIN.MESSAGE"), player);
 		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
 		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
 		} else {
