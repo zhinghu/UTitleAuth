@@ -20,7 +20,7 @@ public class RunLogin extends BukkitRunnable {
 	public RunLogin(Main plugin) {
 		this.plugin = plugin;
     }
-    
+	
     public void run() {
     	for (Player p : Bukkit.getOnlinePlayers()) {
     		Player pl = p.getPlayer();
@@ -29,13 +29,17 @@ public class RunLogin extends BukkitRunnable {
 				if (Main.SecurePlayerRegister.contains(pl.getUniqueId())) {	
         			Main.SecurePlayerRegister.remove(pl.getUniqueId());
         			TitleListeners.SendTitleOnRegister(pl);
-        			SendAcOnRegister(pl);
+        			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+        			    SendAcOnRegister(pl);
+        			}
 				}
 				if (Main.SecurePlayerLogin.contains(pl.getUniqueId())) {
     				if (AuthMeApi.getInstance().isAuthenticated(p)) {
         				Main.SecurePlayerLogin.remove(pl.getUniqueId());
         				TitleListeners.SendTitleOnLogin(pl);
-        				SendAcOnLogin(pl);
+        				if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+        					SendAcOnLogin(pl);
+        				}
     				}
 				}
 			}

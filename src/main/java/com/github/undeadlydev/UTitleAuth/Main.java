@@ -16,6 +16,7 @@ import com.github.undeadlydev.UTitleAuth.Runneable.RunUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConfigUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
+import com.github.undeadlydev.UTitleAuth.Utils.Metrics;
 import com.google.common.collect.Sets;
 
 public class Main  extends JavaPlugin{
@@ -45,6 +46,7 @@ public class Main  extends JavaPlugin{
         ConsoleUtils.getLoggs("&7-----------------------------------", true);
         super.onEnable();
         instance = this;
+        EnableMetrics();
         LoadHooks();
         cfg = new ConfigUtils("Config");
         
@@ -80,6 +82,15 @@ public class Main  extends JavaPlugin{
         	ConsoleUtils.getError("&fPlugin &ePlaceholderAPI &cIs hooked not found!", true);
         	ChatUtils.placeholderAPI(false);
         }
+        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+        	ConsoleUtils.getLoggs("&fPlugin &aCMILib &aHooked Successfully!", true);
+        }
+    }
+    
+    private void EnableMetrics() {
+        int pluginId = 14756;
+        Metrics metrics = new Metrics(this, pluginId);
+        metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
     }
     
     public void onDisable() {

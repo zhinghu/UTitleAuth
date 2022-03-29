@@ -24,6 +24,7 @@ TITLES:
       FADEOUT: 5
       
 ACTIONBAR:
+  Enable: true
   NO_REGISTER:
     MESSAGE: '&7&CTimeleft: &e<time>'
 

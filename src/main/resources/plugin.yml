@@ -1,7 +1,7 @@
 name: UTitleAuth
-version: 3.0
+version: 3.5
 author: [BrunoAvixdub]
 main: com.github.undeadlydev.UTitleAuth.Main
 api-version: 1.13
 depend: [AuthMe]
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, CMILib]
