@@ -27,6 +27,7 @@ public class Main  extends JavaPlugin{
 	
 	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
 	public final static Set<UUID> SecurePlayerLogin = Sets.newHashSet();
+	public final static Set<UUID> SecurePlayerCaptcha = Sets.newHashSet();
 	
     public static JavaPlugin getInt() {
         return (JavaPlugin)instance;

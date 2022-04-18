@@ -9,7 +9,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import com.github.undeadlydev.UTitleAuth.Main;
 import com.github.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
@@ -24,17 +23,21 @@ import net.md_5.bungee.api.chat.TextComponent;
 public class TitleListeners implements Listener {
 	private Main plugin;
     private final Integer timeleft;
-
+    
 	public TitleListeners(Main plugin) {
 		this.plugin = plugin;
 		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 	}
-		
+
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void AuthLoginEvent(PlayerJoinEvent event) {
-		String player = event.getPlayer().getName().toLowerCase();
+    public void AuthLoginEvent(PlayerJoinEvent event) {
+	    String player = event.getPlayer().getName().toLowerCase();
 		Player p = event.getPlayer();
 		if (!AuthMeApi.getInstance().isRegistered(player)) {
+		    if (Main.getOtherConfig().getBoolean("Security.captcha.requireForRegistration")) {
+		        
+			}
+			
 			//NO REGISTER
 			SendTitleNoRegister(p);
 			Main.SecurePlayerRegister.add(p.getUniqueId());
