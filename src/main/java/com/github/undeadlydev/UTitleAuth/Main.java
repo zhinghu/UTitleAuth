@@ -11,7 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
-import com.github.undeadlydev.UTitleAuth.Listeners.TitleListeners;
+import com.github.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
 import com.github.undeadlydev.UTitleAuth.Runneable.RunUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConfigUtils;
@@ -19,7 +19,7 @@ import com.github.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.Metrics;
 import com.google.common.collect.Sets;
 
-public class Main  extends JavaPlugin{
+public class Main  extends JavaPlugin {
 
 	private static Main instance;
 	public RunUtils titlerunutils;
@@ -56,7 +56,7 @@ public class Main  extends JavaPlugin{
         new UTitleAuthCommand(this);
         PluginManager pm = getServer().getPluginManager();
         
-        pm.registerEvents((Listener)new TitleListeners(this), (Plugin)this);
+        pm.registerEvents((Listener)new PlayerListeners(this), (Plugin)this);
         
         ConsoleUtils.getLoggs(" ", true);
         ConsoleUtils.getLoggs("&7-----------------------------------", true);

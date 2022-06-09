@@ -6,7 +6,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.undeadlydev.UTitleAuth.Main;
-import com.github.undeadlydev.UTitleAuth.Listeners.TitleListeners;
+import com.github.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
 import com.github.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.VersionUtils;
@@ -28,7 +28,7 @@ public class RunLogin extends BukkitRunnable {
 			if (AuthMeApi.getInstance().isRegistered(player)) {
 				if (Main.SecurePlayerRegister.contains(pl.getUniqueId())) {	
         			Main.SecurePlayerRegister.remove(pl.getUniqueId());
-        			TitleListeners.SendTitleOnRegister(pl);
+        			PlayerListeners.SendTitleOnRegister(pl);
         			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
         			    SendAcOnRegister(pl);
         			}
@@ -36,7 +36,7 @@ public class RunLogin extends BukkitRunnable {
 				if (Main.SecurePlayerLogin.contains(pl.getUniqueId())) {
     				if (AuthMeApi.getInstance().isAuthenticated(p)) {
         				Main.SecurePlayerLogin.remove(pl.getUniqueId());
-        				TitleListeners.SendTitleOnLogin(pl);
+        				PlayerListeners.SendTitleOnLogin(pl);
         				if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
         					SendAcOnLogin(pl);
         				}

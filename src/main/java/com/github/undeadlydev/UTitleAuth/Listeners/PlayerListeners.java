@@ -20,11 +20,11 @@ import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class TitleListeners implements Listener {
+public class PlayerListeners implements Listener {
 	private Main plugin;
     private final Integer timeleft;
     
-	public TitleListeners(Main plugin) {
+	public PlayerListeners(Main plugin) {
 		this.plugin = plugin;
 		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 	}
