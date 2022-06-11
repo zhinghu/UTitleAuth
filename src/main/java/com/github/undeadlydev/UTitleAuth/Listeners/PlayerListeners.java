@@ -72,7 +72,7 @@ public class PlayerListeners implements Listener {
 	private void SendAcNoRegister(Player player) {
         final int[] time = {this.timeleft};
 		
-		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 			new BukkitRunnable() {
 				@SuppressWarnings("deprecation")
 				@Override
@@ -113,7 +113,7 @@ public class PlayerListeners implements Listener {
 	private void SendAcNoLogin(Player player) {
 		final int[] time = {this.timeleft};
 		
-		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 			new BukkitRunnable() {
 				@SuppressWarnings("deprecation")
 				@Override
@@ -164,7 +164,7 @@ public class PlayerListeners implements Listener {
 		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 999999999);
 		} else {
-			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 				player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 			} else {
 		        int fadeIn = (0);
@@ -185,7 +185,7 @@ public class PlayerListeners implements Listener {
 		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
-			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 				player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 			} else {
 		        int fadeIn = (0);
@@ -206,7 +206,7 @@ public class PlayerListeners implements Listener {
 		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
-			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+			if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 			      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
 			} else {
 				int fadeIn = (0);
@@ -232,7 +232,7 @@ public class PlayerListeners implements Listener {
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-	        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+	        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 			} else {
 			    Title = ChatUtils.replaceXColor(Title, player);
@@ -253,7 +253,7 @@ public class PlayerListeners implements Listener {
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-	        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1) {
+	        if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
 			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 			} else {
 			    Title = ChatUtils.replaceXColor(Title, player);

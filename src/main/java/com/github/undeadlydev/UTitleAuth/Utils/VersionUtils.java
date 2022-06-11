@@ -139,6 +139,10 @@ public class VersionUtils {
   
   public static boolean mc1_18_1 = Bukkit.getBukkitVersion().split("-")[0].contains("1.18.1");
   
+  public static boolean mc1_18_2 = Bukkit.getBukkitVersion().split("-")[0].contains("1.18.2");
+  
+  public static boolean mc1_19 = Bukkit.getBukkitVersion().split("-")[0].contains("1.19");
+  
   public static boolean isPre1_13() {
 	    if (mc1_8 || mc1_9 || mc1_10 || mc1_11 || mc1_12)
 	      return true; 

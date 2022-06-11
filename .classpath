@@ -44,6 +44,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Spigot/Version/v1_19_R1/spigot.jar"/>
 	<classpathentry kind="lib" path="D:/Spigot/Version/v1_18_R1/paper.jar"/>
 	<classpathentry kind="lib" path="D:/Spigot/Version/v1_17_R1/spigot.jar"/>
 	<classpathentry kind="lib" path="D:/Spigot/Version/v1_16_R3/spigot.jar"/>
