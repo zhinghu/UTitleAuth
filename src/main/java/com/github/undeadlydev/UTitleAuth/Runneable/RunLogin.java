@@ -50,7 +50,7 @@ public class RunLogin extends BukkitRunnable {
 	public void SendAcOnRegister(Player player) {
 		
 		String actionbarr = ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.ON_REGISTER.MESSAGE"), player);
-		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
+		if (VersionUtils.isNewVersion()) {
 		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
 		} else {
             ActionBarAPI.sendActionBar(player, actionbarr, Integer.valueOf(Main.GetCfg().getInt("ACTIONBAR.ON_REGISTER.STAY")), (Plugin)plugin);
@@ -61,7 +61,7 @@ public class RunLogin extends BukkitRunnable {
 	public void SendAcOnLogin(Player player) {
 		
 		String actionbarr = ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.ON_LOGIN.MESSAGE"), player);
-		if (VersionUtils.mc1_18 || VersionUtils.mc1_18_1 || VersionUtils.mc1_18_2 || VersionUtils.mc1_19) {
+		if (VersionUtils.isNewVersion()) {
 		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
 		} else {
 			ActionBarAPI.sendActionBar(player, actionbarr, Integer.valueOf(Main.GetCfg().getInt("ACTIONBAR.ON_LOGIN.STAY")), (Plugin)plugin);

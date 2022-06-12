@@ -148,4 +148,9 @@ public class VersionUtils {
 	      return true; 
 	    return false;
   }
+  public static boolean isNewVersion() {
+	    if (mc1_18 || mc1_18_1 || mc1_18_2 || mc1_19)
+	      return true; 
+	    return false;
+  }
 }
