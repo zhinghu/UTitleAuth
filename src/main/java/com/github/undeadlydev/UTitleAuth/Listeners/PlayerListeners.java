@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import com.github.undeadlydev.UTitleAuth.Main;
 import com.github.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
@@ -26,7 +27,7 @@ public class PlayerListeners implements Listener {
     
 	public PlayerListeners(Main plugin) {
 		this.plugin = plugin;
-		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");
+		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");;
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -34,10 +35,6 @@ public class PlayerListeners implements Listener {
 	    String player = event.getPlayer().getName().toLowerCase();
 		Player p = event.getPlayer();
 		if (!AuthMeApi.getInstance().isRegistered(player)) {
-		    if (Main.getOtherConfig().getBoolean("Security.captcha.requireForRegistration")) {
-		        
-			}
-			
 			//NO REGISTER
 			SendTitleNoRegister(p);
 			Main.SecurePlayerRegister.add(p.getUniqueId());
@@ -51,7 +48,6 @@ public class PlayerListeners implements Listener {
 	        if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
 	            SendAcNoLogin(p);
 	        }
-	        
 		}
 	}
 	
@@ -158,23 +154,22 @@ public class PlayerListeners implements Listener {
 		}
     }
 	
-	public static void SendTitleCaptcha(Player player) {
-		String Title = ChatUtils.replaceXColor("&c&lCAPTCHA", player);
-		String subTitle = ChatUtils.replaceXColor("&7AJAJA", player);
-		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 999999999);
+	public static void SendTitlePremium(Player player) {
+		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.AUTO-LOGIN-PREMIUM.TITLE"), player);
+		String subTitle = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.AUTO-LOGIN-PREMIUM.SUBTITLE"), player);
+		
+		int Fadein = Main.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEIN");
+        int Stay = Main.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.STAY");
+        int FadeOut = Main.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEOUT");
+        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
 		} else {
-			if (VersionUtils.isNewVersion()) {
-				player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
+	        if (VersionUtils.isNewVersion()) {
+			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
 			} else {
-		        int fadeIn = (0);
-			    int stay = (999999999);
-			    int fadeOut = (20);
 			    Title = ChatUtils.replaceXColor(Title, player);
 			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
-		        
-		        
+			    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 			}
 		}
 	}
@@ -240,7 +235,6 @@ public class PlayerListeners implements Listener {
 			    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
 			}
 		}
-
 	}
 	
 	public static void SendTitleOnLogin(Player player) {

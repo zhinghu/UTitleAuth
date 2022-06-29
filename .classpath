@@ -50,5 +50,6 @@
 	<classpathentry kind="lib" path="D:/Spigot/Version/v1_16_R3/spigot.jar"/>
 	<classpathentry kind="lib" path="D:/Spigot/Version/v1_8_R3/spigot.jar"/>
 	<classpathentry kind="lib" path="D:/Spigot/buildpath/CMILib1.1.2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/undea/Downloads/FastLoginBukkit.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

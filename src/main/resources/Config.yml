@@ -23,8 +23,17 @@ TITLES:
       STAY: 30
       FADEOUT: 5
       
+  AUTO-LOGIN-PREMIUM:
+    TITLE: '&aPREMIUM ACCOUNT'
+    SUBTITLE: '&eLogin automatically'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      
 ACTIONBAR:
   Enable: true
+  
   NO_REGISTER:
     MESSAGE: '&7&CTimeleft: &e<time>'
 
@@ -33,11 +42,15 @@ ACTIONBAR:
     
   ON_REGISTER:
     STAY: 30
-    MESSAGE: '&eREGISTER COMPLETE! WELCOME %player_name%'
+    MESSAGE: '&eREGISTER COMPLETE! WELCOME <player>'
 
   ON_LOGIN:
     STAY: 30
-    MESSAGE: '&aWELCOME BACK %player_name%'
+    MESSAGE: '&aWELCOME BACK <player>'
+    
+  AUTO_LOGIN_PREMIUM:
+    STAY: 30
+    MESSAGE: '&aWELCOME BACK <player>'
 
 MESSAGE:
   RELOAD: '&cThe config was reloaded.'

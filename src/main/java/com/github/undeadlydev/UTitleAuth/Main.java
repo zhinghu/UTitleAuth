@@ -76,6 +76,9 @@ public class Main  extends JavaPlugin {
     		ConsoleUtils.getError("&fPlugin &cAuthMe &cHooked not found!", true);
 	    	Bukkit.getPluginManager().disablePlugin((Plugin)this);
     	}
+        if (Bukkit.getPluginManager().isPluginEnabled("FastLogin")) {
+    		ConsoleUtils.getLoggs("&fPlugin &aFastLogin &bAutoLogin Premium &aHooked Successfully!", true);
+    	}
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             ConsoleUtils.getLoggs("&fPlugin &ePlaceholderAPI &aHooked Successfully!", true);
             ChatUtils.placeholderAPI(true);
