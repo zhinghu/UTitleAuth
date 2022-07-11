@@ -40,7 +40,7 @@ public class RunLogin extends BukkitRunnable {
 				if (Main.SecurePlayerLogin.contains(pl.getUniqueId())) {
     				if (AuthMeApi.getInstance().isAuthenticated(p)) {
         				Main.SecurePlayerLogin.remove(pl.getUniqueId());
-        				if (JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
+        				if (ChatUtils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
         					PlayerListeners.SendTitlePremium(p);
         					if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
         						SendAcOnPremium(pl);

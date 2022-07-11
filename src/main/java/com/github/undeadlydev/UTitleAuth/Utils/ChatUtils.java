@@ -27,6 +27,12 @@ public class ChatUtils {
 		placeholderAPI = api;
 	}
 	
+	public static boolean FastLogin = false;
+	
+	public static void FastLogin(boolean bol) {
+		FastLogin = bol;
+	}
+	
     public static String colorCodes(String nonColoredText) {
         if (nonColoredText == null)
             return nonColoredText; 
@@ -50,15 +56,15 @@ public class ChatUtils {
 		String.valueOf((char)Integer.parseInt(code, 16)));
     } 
     if (newString.contains("<a>"))
-        newString = newString.replaceAll("<a>", "á"); 
+        newString = newString.replaceAll("<a>", "ï¿½"); 
 	if (newString.contains("<e>"))
-		newString = newString.replaceAll("<e>", "é"); 
+		newString = newString.replaceAll("<e>", "ï¿½"); 
 	if (newString.contains("<i>"))
-		newString = newString.replaceAll("<i>", "í"); 
+		newString = newString.replaceAll("<i>", "ï¿½"); 
 	if (newString.contains("<o>"))
-		newString = newString.replaceAll("<o>", "ó"); 
+		newString = newString.replaceAll("<o>", "ï¿½"); 
 	if (newString.contains("<u>"))
-        newString = newString.replaceAll("<u>", "ú");
+        newString = newString.replaceAll("<u>", "ï¿½");
     return newString;
     }
     
@@ -92,7 +98,7 @@ public class ChatUtils {
                 char code = legacyMatcher.group(2).toLowerCase(Locale.ROOT).charAt(0);
                 for (ChatColor color : supported) {
                     if (color.getChar() == code)
-                        legacyMatcher.appendReplacement(legacyBuilder, "§$2"); 
+                        legacyMatcher.appendReplacement(legacyBuilder, "ï¿½$2"); 
                 } 
             } 
             legacyMatcher.appendReplacement(legacyBuilder, "&$2");
@@ -126,9 +132,9 @@ public class ChatUtils {
             throw new NumberFormatException("Invalid hex length"); 
         Color.fromRGB(Integer.decode("#" + hexColor).intValue());
         StringBuilder assembledColorCode = new StringBuilder();
-        assembledColorCode.append("§x");
+        assembledColorCode.append("ï¿½x");
         for (char curChar : hexColor.toCharArray())
-            assembledColorCode.append('§').append(curChar); 
+            assembledColorCode.append('ï¿½').append(curChar); 
         return assembledColorCode.toString();
     }
     

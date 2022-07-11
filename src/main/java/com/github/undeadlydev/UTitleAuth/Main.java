@@ -77,7 +77,10 @@ public class Main  extends JavaPlugin {
 	    	Bukkit.getPluginManager().disablePlugin((Plugin)this);
     	}
         if (Bukkit.getPluginManager().isPluginEnabled("FastLogin")) {
+        	ChatUtils.FastLogin(true);
     		ConsoleUtils.getLoggs("&fPlugin &aFastLogin &bAutoLogin Premium &aHooked Successfully!", true);
+    	} else {
+    		ChatUtils.FastLogin(false);
     	}
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             ConsoleUtils.getLoggs("&fPlugin &ePlaceholderAPI &aHooked Successfully!", true);
