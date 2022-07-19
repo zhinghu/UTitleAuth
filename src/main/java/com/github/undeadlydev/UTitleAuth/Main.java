@@ -12,7 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
 import com.github.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
-import com.github.undeadlydev.UTitleAuth.Runneable.RunUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConfigUtils;
 import com.github.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
@@ -22,12 +21,10 @@ import com.google.common.collect.Sets;
 public class Main  extends JavaPlugin {
 
 	private static Main instance;
-	public RunUtils titlerunutils;
 	public static ConfigUtils cfg;
 	
 	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
 	public final static Set<UUID> SecurePlayerLogin = Sets.newHashSet();
-	public final static Set<UUID> SecurePlayerCaptcha = Sets.newHashSet();
 	
     public static JavaPlugin getInt() {
         return (JavaPlugin)instance;
@@ -50,8 +47,6 @@ public class Main  extends JavaPlugin {
         EnableMetrics();
         LoadHooks();
         cfg = new ConfigUtils("Config");
-        
-        this.titlerunutils = new RunUtils(this);
         
         new UTitleAuthCommand(this);
         PluginManager pm = getServer().getPluginManager();

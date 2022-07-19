@@ -56,15 +56,15 @@ public class ChatUtils {
 		String.valueOf((char)Integer.parseInt(code, 16)));
     } 
     if (newString.contains("<a>"))
-        newString = newString.replaceAll("<a>", "ï¿½"); 
+        newString = newString.replaceAll("<a>", "á"); 
 	if (newString.contains("<e>"))
-		newString = newString.replaceAll("<e>", "ï¿½"); 
+		newString = newString.replaceAll("<e>", "é"); 
 	if (newString.contains("<i>"))
-		newString = newString.replaceAll("<i>", "ï¿½"); 
+		newString = newString.replaceAll("<i>", "í"); 
 	if (newString.contains("<o>"))
-		newString = newString.replaceAll("<o>", "ï¿½"); 
+		newString = newString.replaceAll("<o>", "ó"); 
 	if (newString.contains("<u>"))
-        newString = newString.replaceAll("<u>", "ï¿½");
+        newString = newString.replaceAll("<u>", "ú");
     return newString;
     }
     
@@ -98,7 +98,7 @@ public class ChatUtils {
                 char code = legacyMatcher.group(2).toLowerCase(Locale.ROOT).charAt(0);
                 for (ChatColor color : supported) {
                     if (color.getChar() == code)
-                        legacyMatcher.appendReplacement(legacyBuilder, "ï¿½$2"); 
+                        legacyMatcher.appendReplacement(legacyBuilder, "§$2"); 
                 } 
             } 
             legacyMatcher.appendReplacement(legacyBuilder, "&$2");
@@ -132,9 +132,9 @@ public class ChatUtils {
             throw new NumberFormatException("Invalid hex length"); 
         Color.fromRGB(Integer.decode("#" + hexColor).intValue());
         StringBuilder assembledColorCode = new StringBuilder();
-        assembledColorCode.append("ï¿½x");
+        assembledColorCode.append("§x");
         for (char curChar : hexColor.toCharArray())
-            assembledColorCode.append('ï¿½').append(curChar); 
+        	assembledColorCode.append('§').append(curChar); 
         return assembledColorCode.toString();
     }
     
