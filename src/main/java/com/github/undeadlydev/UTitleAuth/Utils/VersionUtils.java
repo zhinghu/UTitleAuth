@@ -52,8 +52,13 @@ public class VersionUtils {
     v1_17_1(11701),
     v1_17_x(11710),
     v1_18(11800),
-    v1_18_1(11801),
-    v1_18_x(11810),
+	v1_18_1(11801),
+	v1_18_2(11802),
+	v1_18_x(11810),
+	v1_19(11900),
+	v1_19_1(11901),
+	v1_19_2(11902),
+	v1_19_x(11910),
     vUnsupported(1000000);
     
     private int value;
@@ -143,13 +148,17 @@ public class VersionUtils {
   
   public static boolean mc1_19 = Bukkit.getBukkitVersion().split("-")[0].contains("1.19");
   
+  public static boolean mc1_19_1 = Bukkit.getBukkitVersion().split("-")[0].contains("1.19.1");
+  
+  public static boolean mc1_19_2 = Bukkit.getBukkitVersion().split("-")[0].contains("1.19.2");
+  
   public static boolean isPre1_13() {
 	    if (mc1_8 || mc1_9 || mc1_10 || mc1_11 || mc1_12)
 	      return true; 
 	    return false;
   }
   public static boolean isNewVersion() {
-	    if (mc1_18 || mc1_18_1 || mc1_18_2 || mc1_19)
+	    if (mc1_18 || mc1_18_1 || mc1_18_2 || mc1_19 || mc1_19_1 || mc1_19_2)
 	      return true; 
 	    return false;
   }

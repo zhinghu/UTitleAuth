@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,79 +27,11 @@ import net.md_5.bungee.api.chat.TextComponent;
 
 public class PlayerListeners implements Listener {
 	private Main plugin;
-    private final Integer timeleft;
     
 	public PlayerListeners(Main plugin) {
 		this.plugin = plugin;
-		this.timeleft = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void AuthLoginEvent(PlayerJoinEvent event) {
-	    String player = event.getPlayer().getName().toLowerCase();
-		Player p = event.getPlayer();
-		if (!AuthMeApi.getInstance().isRegistered(player)) {
-			//NO REGISTER
-			SendTitleNoRegister(p);
-			Main.SecurePlayerRegister.add(p.getUniqueId());
-			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-			    this.SendAcNoRegister(p);
-			     
-			}
-			(new BukkitRunnable() {
-    		    int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
-    			public void run() {
-    				if (p.isOnline() && Main.SecurePlayerRegister.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isRegistered(player)) {
-    					this.time--;
-                    } else {
-                    	Main.SecurePlayerRegister.remove(p.getUniqueId());
-            			SendTitleOnRegister(p);
-            			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-            			    SendAcOnRegister(p);
-            			}
-                    	cancel();
-                    }
-    				if (this.time <= 0) {
-                        cancel();
-    				}
-                }
-            }).runTaskTimer((Plugin)plugin, 0L, 20L); 
-		} else {
-			//NO LOGIN
-			SendTitleNoLogin(p);
-	        Main.SecurePlayerLogin.add(p.getUniqueId());
-	        if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-	            SendAcNoLogin(p);
-	        }
-	        (new BukkitRunnable() {
-    		    int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
-    			public void run() {
-    				if (p.isOnline() && Main.SecurePlayerLogin.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isAuthenticated(p)) {
-    					this.time--;
-                    } else {
-                    	Main.SecurePlayerLogin.remove(p.getUniqueId());
-        				if (ChatUtils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
-        					SendTitlePremium(p);
-        					if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-        						SendAcOnPremium(p);
-        					}
-        				} else {
-            				SendTitleOnLogin(p);
-            				if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-            					SendAcOnLogin(p);
-            				}	
-        				}
-                    	cancel();
-                    }
-    				if (this.time <= 0) {
-                        cancel();
-    				}
-                }
-            }).runTaskTimer((Plugin)plugin, 0L, 20L); 
-		}
-	}
-
-	
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void OnDisconnect(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
@@ -110,94 +43,148 @@ public class PlayerListeners implements Listener {
 		}
 	}
 	
-	private void SendAcNoRegister(Player player) {
-        final int[] time = {this.timeleft};
-		
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void OnKick(PlayerKickEvent e) {
+		Player p = e.getPlayer();
+		if (Main.SecurePlayerRegister.contains(p.getUniqueId())) {
+			Main.SecurePlayerRegister.remove(p.getUniqueId());
+		}
+		if (Main.SecurePlayerLogin.contains(p.getUniqueId())) {
+			Main.SecurePlayerLogin.remove(p.getUniqueId());
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void AuthLoginEvent(PlayerJoinEvent event) {
+	    String player = event.getPlayer().getName().toLowerCase();
+		Player p = event.getPlayer();
+		if (!AuthMeApi.getInstance().isRegistered(player)) {
+			//NO REGISTER
+			SendTitleNoRegister(p);
+			Main.SecurePlayerRegister.add(p.getUniqueId());
+			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+			    SendAcNoRegister(p); 
+			}
+			(new BukkitRunnable() {
+    			public void run() {
+    				if (p.isOnline() && Main.SecurePlayerRegister.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isRegistered(player)) {
+    					return;
+                    } else {
+                    	SendTitleOnRegister(p);
+            			if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+            			    SendAcOnRegister(p);
+            			}
+                    	Main.SecurePlayerRegister.remove(p.getUniqueId());
+                    	cancel();
+                    }
+                }
+            }).runTaskTimer((Plugin)plugin, 0L, 5L); 
+		} else {
+			//NO LOGIN
+			SendTitleNoLogin(p);
+	        Main.SecurePlayerLogin.add(p.getUniqueId());
+	        if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+	            SendAcNoLogin(p);
+	        }
+	        (new BukkitRunnable() {
+    			public void run() {
+    				if (p.isOnline() && Main.SecurePlayerLogin.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isAuthenticated(p)) {
+    					return;
+                    } else {
+        				if (ChatUtils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
+        					SendTitlePremium(p);
+        					if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+        						SendAcOnPremium(p);
+        					}
+        				} else {
+            				SendTitleOnLogin(p);
+            				if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+            					SendAcOnLogin(p);
+            				}	
+        				}
+        				Main.SecurePlayerLogin.remove(p.getUniqueId());
+                    	cancel();
+                    }
+                }
+            }).runTaskTimer((Plugin)plugin, 0L, 5L); 
+		}
+	}
+    
+    private void SendAcNoRegister(Player player) {
 		if (VersionUtils.isNewVersion()) {
 			new BukkitRunnable() {
+				int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					if (!Main.SecurePlayerRegister.contains(player.getUniqueId())) {
-			        	this.cancel();
-			        	return;
+			        	cancel();
+			            return;
 					}
-					if (time[0] <= 0) {
+					if (time <= 0) {
 						cancel();
-	                    return;
 					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
-					time[0]--;
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player)));
+					time--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);
 			
 		} else {
 			new BukkitRunnable() {
-
+				int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 				@Override
 				public void run() {
 					if (!Main.SecurePlayerRegister.contains(player.getUniqueId())) {
-			        	this.cancel();
+			        	cancel();
 			        	return;
 					}
-					if (time[0] <= 0) {
+					if (time <= 0) {
 						cancel();
-	                    return;
 					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
-					time[0]--;
+					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player), 14, (Plugin)plugin);
+					time--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);
 		}	
 	}
 	
 	private void SendAcNoLogin(Player player) {
-		final int[] time = {this.timeleft};
-		
 		if (VersionUtils.isNewVersion()) {
 			new BukkitRunnable() {
+				int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 				@SuppressWarnings("deprecation")
 				@Override
 				public void run() {
 					if (!Main.SecurePlayerLogin.contains(player.getUniqueId())) {
-			        	this.cancel();
+			        	cancel();
 			        	return;
 					}
-					if (time[0] <= 0) {
+					if (time <= 0) {
 						cancel();
-	                    return;
 					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player)));
-					time[0]--;
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player)));
+					time--;
 				}
 			}.runTaskTimer(this.plugin, 0L, 20L);			
 		} else {
 			new BukkitRunnable() {
+				int time = Main.getOtherConfig().getInt("settings.restrictions.timeout");
 				@Override
 				public void run() {
 					if (!Main.SecurePlayerLogin.contains(player.getUniqueId())) {
-			        	this.cancel();
+			        	cancel();
 			        	return;
 					}
-					if (time[0] <= 0) {
+					if (time <= 0) {
 						cancel();
-	                    return;
 					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time[0])), player), 14, (Plugin)plugin);
-					time[0]--;
+					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(Main.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player), 14, (Plugin)plugin);
+					time--;
 				}
 
 			}.runTaskTimer(this.plugin, 0L, 20L);
 		}	
 	}
-	
-    public void SendRegisterRequiered(Player p) {
-		SendTitleNoRegister(p);
-		Main.SecurePlayerRegister.add(p.getUniqueId());
-		if (Main.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-		    SendAcNoRegister(p);
-		}
-    }
 	
     private void SendTitlePremium(Player player) {
 		String Title = ChatUtils.replaceXColor(Main.GetCfg().getString("TITLES.AUTO-LOGIN-PREMIUM.TITLE"), player);
@@ -254,12 +241,9 @@ public class PlayerListeners implements Listener {
 			    int fadeOut = (20);
 			    Title = ChatUtils.replaceXColor(Title, player);
 			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
-		        
+			    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);   
 			}
 		}
-
-
 	}
 	
 	private void SendTitleOnRegister(Player player) {
@@ -301,7 +285,7 @@ public class PlayerListeners implements Listener {
 			}
 		}
 	}
-	
+    
 	@SuppressWarnings("deprecation")
 	private void SendAcOnPremium(Player player) {
 		
