@@ -140,6 +140,18 @@ public class VersionUtils {
   
   public static boolean mc1_13_1 = Bukkit.getBukkitVersion().split("-")[0].contains("1.13.1");
   
+  public static boolean mc1_16_2 = Bukkit.getBukkitVersion().split("-")[0].contains("1.16.2");
+  
+  public static boolean mc1_16_3 = Bukkit.getBukkitVersion().split("-")[0].contains("1.16.3");
+  
+  public static boolean mc1_16_4 = Bukkit.getBukkitVersion().split("-")[0].contains("1.16.4");
+  
+  public static boolean mc1_16_5 = Bukkit.getBukkitVersion().split("-")[0].contains("1.16.5");
+  
+  public static boolean mc1_17 = Bukkit.getBukkitVersion().split("-")[0].contains("1.17");
+  
+  public static boolean mc1_17_1 = Bukkit.getBukkitVersion().split("-")[0].contains("1.17.1");
+  
   public static boolean mc1_18 = Bukkit.getBukkitVersion().split("-")[0].contains("1.18");
   
   public static boolean mc1_18_1 = Bukkit.getBukkitVersion().split("-")[0].contains("1.18.1");
@@ -158,7 +170,19 @@ public class VersionUtils {
 	    return false;
   }
   public static boolean isNewVersion() {
-	    if (mc1_18 || mc1_18_1 || mc1_18_2 || mc1_19 || mc1_19_1 || mc1_19_2)
+	    if (mc1_16_2 ||
+	    		mc1_16_3 ||
+	    		mc1_16_3 ||
+	    		mc1_16_4 ||
+	    		mc1_16_5 ||
+	    		mc1_17 ||
+	    		mc1_17_1 ||
+	    		mc1_18 ||
+	    		mc1_18_1 ||
+	    		mc1_18_2 ||
+	    		mc1_19 ||
+	    		mc1_19_1 ||
+	    		mc1_19_2)
 	      return true; 
 	    return false;
   }

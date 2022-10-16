@@ -18,7 +18,20 @@ public class UTitleAuthCommand extends CommandUtils<Main> {
   
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (!(commandSender instanceof Player))
-            return true; 
+        	if (args.length == 0) {
+        		commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
+                commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));
+                return true;
+           }
+           if (args.length == 1) {
+               if (args[0].equalsIgnoreCase("reload")) {
+               	Main.GetCfg().Reload();
+               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + Main.GetCfg().getString("MESSAGE.RELOAD")));
+               } else {
+            	   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
+                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));  
+               }
+           }
         if (commandSender instanceof Player) {
             Player player = (Player)commandSender;
             if (player.hasPermission("utitleauth.admin")) {

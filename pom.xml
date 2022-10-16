@@ -6,7 +6,7 @@
 
     <groupId>com.github.undeadlydev.UTitleAuth.Main</groupId>
     <artifactId>UTitleAuth</artifactId>
-    <version>4.5</version>
+    <version>5.0</version>
     <build>
         <plugins>
             <plugin>
