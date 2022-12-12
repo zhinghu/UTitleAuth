@@ -56,7 +56,7 @@ public class Main  extends JavaPlugin {
         ConsoleUtils.getLoggs(" ", true);
         ConsoleUtils.getLoggs("&7-----------------------------------", true);
         ConsoleUtils.getLoggs(" ", true);
-        ConsoleUtils.getLoggs("&fServer: &c" + getServer().getVersion() + " " , true);
+        ConsoleUtils.getLoggs("&fServer: &c" + getServer().getName() + " " + getServer().getVersion() , true);
         ConsoleUtils.getLoggs("&fSuccessfully Plugin &aEnabled! &cv" + getDescription().getVersion(), true);
         ConsoleUtils.getLoggs("&fCreator: &eBrunoAvixdub", true);
         ConsoleUtils.getLoggs("&fThanks for use my plugin :D", true);
