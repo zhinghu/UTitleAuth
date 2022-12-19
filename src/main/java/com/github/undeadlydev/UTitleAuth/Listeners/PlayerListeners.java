@@ -36,8 +36,6 @@ public class PlayerListeners implements Listener {
 	public PlayerListeners(Main plugin) {
 		this.plugin = plugin;
 	}
-
-	// UnregisterByPlayerEvent, AuthMeAsyncPreRegisterEvent, RegisterEvent, LoginEvent, LogoutEvent
 	
 	@EventHandler
     public void UnRegisterByPlayer(UnregisterByPlayerEvent event) {
