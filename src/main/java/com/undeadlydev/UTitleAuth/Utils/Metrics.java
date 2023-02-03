@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth.Utils;
+package com.undeadlydev.UTitleAuth.Utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

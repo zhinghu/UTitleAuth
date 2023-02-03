@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth.Utils;
+package com.undeadlydev.UTitleAuth.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.github.undeadlydev.UTitleAuth.Main;
+import com.undeadlydev.UTitleAuth.Main;
 
 public class ConfigUtils extends YamlConfiguration {
    private File File;

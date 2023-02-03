@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth;
+package com.undeadlydev.UTitleAuth;
 
 import java.util.Set;
 import java.util.UUID;
@@ -10,13 +10,13 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
-import com.github.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
-import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.github.undeadlydev.UTitleAuth.Utils.ConfigUtils;
-import com.github.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
-import com.github.undeadlydev.UTitleAuth.Utils.Metrics;
 import com.google.common.collect.Sets;
+import com.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
+import com.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
+import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
+import com.undeadlydev.UTitleAuth.Utils.ConfigUtils;
+import com.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
+import com.undeadlydev.UTitleAuth.Utils.Metrics;
 
 public class Main  extends JavaPlugin {
 

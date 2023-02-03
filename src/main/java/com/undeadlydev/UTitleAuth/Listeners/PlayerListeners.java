@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth.Listeners;
+package com.undeadlydev.UTitleAuth.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,11 +14,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.games647.fastlogin.bukkit.FastLoginBukkit;
 import com.github.games647.fastlogin.core.PremiumStatus;
-import com.github.undeadlydev.UTitleAuth.Main;
-import com.github.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
-import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.github.undeadlydev.UTitleAuth.Utils.TitleAPI;
-import com.github.undeadlydev.UTitleAuth.Utils.VersionUtils;
+import com.undeadlydev.UTitleAuth.Main;
+import com.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
+import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
+import com.undeadlydev.UTitleAuth.Utils.TitleAPI;
+import com.undeadlydev.UTitleAuth.Utils.VersionUtils;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import fr.xephi.authme.events.LoginEvent;

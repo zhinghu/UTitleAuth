@@ -1,12 +1,12 @@
-package com.github.undeadlydev.UTitleAuth.Commands;
+package com.undeadlydev.UTitleAuth.Commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.undeadlydev.UTitleAuth.Main;
-import com.github.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.github.undeadlydev.UTitleAuth.Utils.CommandUtils;
+import com.undeadlydev.UTitleAuth.Main;
+import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
+import com.undeadlydev.UTitleAuth.Utils.CommandUtils;
 
 public class UTitleAuthCommand extends CommandUtils<Main> {
 	public Main plugin;

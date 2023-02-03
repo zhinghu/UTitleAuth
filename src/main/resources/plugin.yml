@@ -1,7 +1,7 @@
 name: UTitleAuth
 version: 5.5
 author: [BrunoAvixdub]
-main: com.github.undeadlydev.UTitleAuth.Main
+main: com.undeadlydev.UTitleAuth.Main
 api-version: 1.13
 depend: [AuthMe]
 softdepend: 

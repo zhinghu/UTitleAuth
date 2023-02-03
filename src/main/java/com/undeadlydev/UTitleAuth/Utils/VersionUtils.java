@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth.Utils;
+package com.undeadlydev.UTitleAuth.Utils;
 
 import org.bukkit.Bukkit;
 

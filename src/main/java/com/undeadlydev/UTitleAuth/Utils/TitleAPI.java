@@ -1,4 +1,4 @@
-package com.github.undeadlydev.UTitleAuth.Utils;
+package com.undeadlydev.UTitleAuth.Utils;
 
 import java.lang.reflect.Constructor;
 import org.bukkit.entity.Player;
