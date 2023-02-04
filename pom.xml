@@ -54,13 +54,22 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <targetPath>.</targetPath>
                 <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
             </resource>
         </resources>
     </build>
 
     <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        
         <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
@@ -71,7 +80,13 @@
         </repository>
     </repositories>
 
-    <dependencies>
+    <dependencies>        
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
@@ -84,6 +99,7 @@
             <version>5.6.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
 </project>
