@@ -2,7 +2,6 @@ name: UTitleAuth
 version: 5.5.0
 author: [BrunoAvixdub]
 main: com.undeadlydev.UTitleAuth.Main
-api-version: 1.13
 depend: [AuthMe]
 softdepend: 
   - PlaceholderAPI

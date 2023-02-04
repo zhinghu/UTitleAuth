@@ -45,7 +45,7 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <finalName>UKBFFA</finalName>
+                            <finalName>UTitleAuth</finalName>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
