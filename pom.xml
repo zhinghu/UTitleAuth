@@ -67,18 +67,18 @@
 
     <dependencies>
         <dependency>
-            <groupId>CMILib</groupId>
+            <groupId>CMI</groupId>
             <artifactId>API</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/CMILib1.2.3.6.jar</systemPath>
+            <systemPath>${project.basedir}/libs/extras/CMILib.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>FastLoginBukkit</groupId>
+            <groupId>FastLogin</groupId>
             <artifactId>API</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/FastLoginBukkit.jar</systemPath>
+            <systemPath>${project.basedir}/libs/extras/FastLoginBukkit.jar</systemPath>
         </dependency>      
         <dependency>
             <groupId>org.spigotmc</groupId>
