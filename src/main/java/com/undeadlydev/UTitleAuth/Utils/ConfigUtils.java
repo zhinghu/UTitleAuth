@@ -9,7 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.undeadlydev.UTitleAuth.Main;
+import com.undeadlydev.UTitleAuth.TitleAuth;
 
 public class ConfigUtils extends YamlConfiguration {
    private File File;
@@ -19,7 +19,7 @@ public class ConfigUtils extends YamlConfiguration {
    public void SaveDefault() {
       try {
          if (!this.File.exists()) {
-        	 Main.getInt().saveResource(this.Path, false);
+        	 TitleAuth.getInt().saveResource(this.Path, false);
          }
       } catch (Exception var2) {
          ConsoleUtils.getError("&cSaveDefault Path: &9" + this.Path + " &cError Ex>> &f" + var2, true);
@@ -29,20 +29,20 @@ public class ConfigUtils extends YamlConfiguration {
 
    public ConfigUtils(String var1) {
       this.Path = var1 + ".yml";
-      this.File = new File(Main.getInt().getDataFolder(), this.Path);
+      this.File = new File(TitleAuth.getInt().getDataFolder(), this.Path);
       this.SaveDefault();
       this.Reload();
    }
 
    public void ReloadUFT8() {
       if (this.FileC == null) {
-         this.File = new File(Main.getInt().getDataFolder(), this.Path);
+         this.File = new File(TitleAuth.getInt().getDataFolder(), this.Path);
       }
 
       this.FileC = YamlConfiguration.loadConfiguration(this.File);
 
       try {
-         InputStreamReader var1 = new InputStreamReader(Main.getInt().getResource(this.Path), "UTF8");
+         InputStreamReader var1 = new InputStreamReader(TitleAuth.getInt().getResource(this.Path), "UTF8");
          if (var1 != null) {
             YamlConfiguration var2 = YamlConfiguration.loadConfiguration(var1);
             this.FileC.setDefaults(var2);

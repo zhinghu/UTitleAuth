@@ -4,13 +4,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.undeadlydev.UTitleAuth.Main;
+import com.undeadlydev.UTitleAuth.TitleAuth;
 import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.Utils.CommandUtils;
 
-public class UTitleAuthCommand extends CommandUtils<Main> {
-	public Main plugin;
-    public UTitleAuthCommand(Main plugin) {
+public class UTitleAuthCommand extends CommandUtils<TitleAuth> {
+	public TitleAuth plugin;
+    public UTitleAuthCommand(TitleAuth plugin) {
         super(plugin, "utitleauth");
         registerCommand();
         this.plugin = plugin;
@@ -25,8 +25,8 @@ public class UTitleAuthCommand extends CommandUtils<Main> {
            }
            if (args.length == 1) {
                if (args[0].equalsIgnoreCase("reload")) {
-               	Main.GetCfg().Reload();
-               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + Main.GetCfg().getString("MESSAGE.RELOAD")));
+               	TitleAuth.GetCfg().Reload();
+               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + TitleAuth.GetCfg().getString("MESSAGE.RELOAD")));
                } else {
             	   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));  
@@ -42,12 +42,12 @@ public class UTitleAuthCommand extends CommandUtils<Main> {
                 }
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
-                    	Main.GetCfg().Reload();
-                    	player.sendMessage(ChatUtils.colorCodes(Main.GetCfg().getString("MESSAGE.RELOAD")));
+                    	TitleAuth.GetCfg().Reload();
+                    	player.sendMessage(ChatUtils.colorCodes(TitleAuth.GetCfg().getString("MESSAGE.RELOAD")));
                     }
                 }
             } else {
-            	player.sendMessage(ChatUtils.colorCodes(Main.GetCfg().getString("MESSAGE.NO_AUTHORIZED")));
+            	player.sendMessage(ChatUtils.colorCodes(TitleAuth.GetCfg().getString("MESSAGE.NO_AUTHORIZED")));
             	return true;
             }
         }

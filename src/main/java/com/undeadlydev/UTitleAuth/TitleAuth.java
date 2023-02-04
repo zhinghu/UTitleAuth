@@ -18,9 +18,9 @@ import com.undeadlydev.UTitleAuth.Utils.ConfigUtils;
 import com.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
 import com.undeadlydev.UTitleAuth.Utils.Metrics;
 
-public class Main  extends JavaPlugin {
+public class TitleAuth  extends JavaPlugin {
 
-	private static Main instance;
+	private static TitleAuth instance;
 	public static ConfigUtils cfg;
 	
 	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
