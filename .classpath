@@ -44,7 +44,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Cosas Servidores/BuildPath/CMILib1.2.3.6.jar"/>
-	<classpathentry kind="lib" path="D:/Cosas Servidores/BuildPath/FastLoginBukkit.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
