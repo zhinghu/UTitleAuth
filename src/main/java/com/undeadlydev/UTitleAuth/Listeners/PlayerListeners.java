@@ -28,7 +28,10 @@ import fr.xephi.authme.events.UnregisterByPlayerEvent;
 import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.scheduler.BukkitTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,6 +40,8 @@ public class PlayerListeners implements Listener {
 
 	private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
 	private Set<UUID> SecurePlayerLogin = Sets.newHashSet();
+
+	private static Map<String, BukkitTask> cancelac = new HashMap<>();
 
 	public PlayerListeners(TitleAuth plugin) {
 		this.plugin = plugin;
@@ -51,6 +56,7 @@ public class PlayerListeners implements Listener {
 		if (SecurePlayerLogin.contains(p.getUniqueId())) {
 			SecurePlayerLogin.remove(p.getUniqueId());
 		}
+		cancelac.remove(p.getName());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -62,6 +68,7 @@ public class PlayerListeners implements Listener {
 		if (SecurePlayerLogin.contains(p.getUniqueId())) {
 			SecurePlayerLogin.remove(p.getUniqueId());
 		}
+		cancelac.remove(p.getName());
 	}
 
 	@EventHandler
@@ -90,6 +97,7 @@ public class PlayerListeners implements Listener {
 		SecurePlayerRegister.remove(p.getUniqueId());
 		SendTitleOnRegister(p);
 		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
+			cancelac.remove(p.getName());
 		    SendAcOnRegister(p);
 		}
 	}
@@ -101,11 +109,13 @@ public class PlayerListeners implements Listener {
 		if (Utils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
 			SendTitlePremium(p);
 			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
+				cancelac.remove(p.getName());
 				SendAcOnPremium(p);
 			}
 		} else {
 			SendTitleOnLogin(p);
 			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
+				cancelac.remove(p.getName());
 				SendAcOnLogin(p);
 			}	
 		}
@@ -143,13 +153,11 @@ public class PlayerListeners implements Listener {
 	}
     
     private void SendAcNoRegister(Player player) {
-		new BukkitRunnable() {
+		BukkitTask bukkitTask = (new BukkitRunnable() {
 			int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
-			@Override
 			public void run() {
-				if (!SecurePlayerRegister.contains(player.getUniqueId())) {
+				if (!cancelac.containsKey(player.getName())) {
 					cancel();
-					return;
 				}
 				if (time <= 0) {
 					cancel();
@@ -157,15 +165,16 @@ public class PlayerListeners implements Listener {
 				plugin.getVc().getReflection().sendActionBar(ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player), player);
 				time--;
 			}
-		}.runTaskTimer(this.plugin, 0L, 20L);
+		}).runTaskTimer(plugin, 0L, 20L);
+		cancelac.put(player.getName(), bukkitTask);
 	}
 	
 	private void SendAcNoLogin(Player player) {
-		new BukkitRunnable() {
+		BukkitTask bukkitTask = (new BukkitRunnable() {
 			int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
 			@Override
 			public void run() {
-				if (!SecurePlayerLogin.contains(player.getUniqueId())) {
+				if (!cancelac.containsKey(player.getName())) {
 					cancel();
 					return;
 				}
@@ -176,7 +185,8 @@ public class PlayerListeners implements Listener {
 				time--;
 			}
 
-		}.runTaskTimer(this.plugin, 0L, 20L);
+		}).runTaskTimer(this.plugin, 0L, 20L);
+		cancelac.put(player.getName(), bukkitTask);
 	}
 	
     private void SendTitlePremium(Player player) {
