@@ -1,0 +1,57 @@
+TITLES:
+  NO-REGISTER:
+    TITLE: '&aPlease Register'
+    SUBTITLE: '&eUse /register password password'
+
+  NO-LOGIN:
+    TITLE: '&aPlease Login'
+    SUBTITLE: '&eUse /login password'    
+
+  ON-REGISTER:
+    TITLE: '&aREGISTER COMPLETE'
+    SUBTITLE: '&eRegister sucellyfull'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      
+  ON-LOGIN:
+    TITLE: '&aLOGIN COMPLETE'
+    SUBTITLE: '&eLogin sucellyfull'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      
+  AUTO-LOGIN-PREMIUM:
+    TITLE: '&aPREMIUM ACCOUNT'
+    SUBTITLE: '&eLogin automatically'
+    TIME:
+      FADEIN: 5
+      STAY: 30
+      FADEOUT: 5
+      
+ACTIONBAR:
+  Enable: true
+  
+  NO_REGISTER:
+    MESSAGE: '&7&CTimeleft: &e<time>'
+
+  NO_LOGIN:
+    MESSAGE: '&7&CTimeleft: &e<time>'
+    
+  ON_REGISTER:
+    STAY: 30
+    MESSAGE: '&eREGISTER COMPLETE! WELCOME <player>'
+
+  ON_LOGIN:
+    STAY: 30
+    MESSAGE: '&aWELCOME BACK <player>'
+    
+  AUTO_LOGIN_PREMIUM:
+    STAY: 30
+    MESSAGE: '&aWELCOME BACK <player>'
+
+MESSAGE:
+  RELOAD: '&cThe config was reloaded.'
+  NO_AUTHORIZED: '&cYou are not authorized for this.'
