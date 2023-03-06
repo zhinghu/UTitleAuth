@@ -1,0 +1,12 @@
+
+.idea/vcs.xml
+.idea/jarRepositories.xml
+.idea/encodings.xml
+.idea/discord.xml
+.idea/compiler.xml
+.idea/misc.xml
+*.class
+*.yml
+*.properties
+*.jar
+*.lst
