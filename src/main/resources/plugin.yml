@@ -1,8 +1,9 @@
 name: UTitleAuth
-version: 5.5.0
-author: [BrunoAvixdub]
+version: ${project.version}
+author: [UnDeadlyDev]
 main: com.undeadlydev.UTitleAuth.TitleAuth
 depend: [AuthMe]
+api-version: 1.13
 softdepend: 
   - PlaceholderAPI
   - CMILib

@@ -1,5 +1,7 @@
-package com.undeadlydev.UTitleAuth.Listeners;
+package com.undeadlydev.UTitleAuth.listeners;
 
+import com.google.common.collect.Sets;
+import com.undeadlydev.UTitleAuth.utls.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,10 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.games647.fastlogin.bukkit.FastLoginBukkit;
 import com.github.games647.fastlogin.core.PremiumStatus;
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.Utils.ActionBarAPI;
-import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.undeadlydev.UTitleAuth.Utils.TitleAPI;
-import com.undeadlydev.UTitleAuth.Utils.VersionUtils;
+import com.undeadlydev.UTitleAuth.utls.ChatUtils;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import fr.xephi.authme.events.LoginEvent;
@@ -30,19 +29,47 @@ import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.util.Set;
+import java.util.UUID;
+
 public class PlayerListeners implements Listener {
 	private TitleAuth plugin;
-    
+
+	private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
+	private Set<UUID> SecurePlayerLogin = Sets.newHashSet();
+
 	public PlayerListeners(TitleAuth plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void OnDisconnect(PlayerQuitEvent e) {
+		Player p = e.getPlayer();
+		if (SecurePlayerRegister.contains(p.getUniqueId())) {
+			SecurePlayerRegister.remove(p.getUniqueId());
+		}
+		if (SecurePlayerLogin.contains(p.getUniqueId())) {
+			SecurePlayerLogin.remove(p.getUniqueId());
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void OnKick(PlayerKickEvent e) {
+		Player p = e.getPlayer();
+		if (SecurePlayerRegister.contains(p.getUniqueId())) {
+			SecurePlayerRegister.remove(p.getUniqueId());
+		}
+		if (SecurePlayerLogin.contains(p.getUniqueId())) {
+			SecurePlayerLogin.remove(p.getUniqueId());
+		}
+	}
+
 	@EventHandler
     public void UnRegisterByPlayer(UnregisterByPlayerEvent event) {
     	Player p = event.getPlayer();
     	SendTitleNoRegister(p);
-		TitleAuth.SecurePlayerRegister.add(p.getUniqueId());
-		if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+		SecurePlayerRegister.add(p.getUniqueId());
+		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 		    SendAcNoRegister(p); 
 		}
     }
@@ -51,8 +78,8 @@ public class PlayerListeners implements Listener {
     public void UnRegisterByAdmin(UnregisterByAdminEvent event) {
     	Player p = event.getPlayer();
     	SendTitleNoRegister(p);
-		TitleAuth.SecurePlayerRegister.add(p.getUniqueId());
-		if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+		SecurePlayerRegister.add(p.getUniqueId());
+		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 		    SendAcNoRegister(p); 
 		}
     }
@@ -60,9 +87,9 @@ public class PlayerListeners implements Listener {
 	@EventHandler
     public void OnRegisterPlayer(RegisterEvent event) {
 		Player p = event.getPlayer();
-		TitleAuth.SecurePlayerRegister.remove(p.getUniqueId());
+		SecurePlayerRegister.remove(p.getUniqueId());
 		SendTitleOnRegister(p);
-		if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 		    SendAcOnRegister(p);
 		}
 	}
@@ -70,15 +97,15 @@ public class PlayerListeners implements Listener {
 	@EventHandler
     public void OnLoginPlayer(LoginEvent event) {
 		Player p = event.getPlayer();
-		TitleAuth.SecurePlayerLogin.remove(p.getUniqueId());
-		if (ChatUtils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
+		SecurePlayerLogin.remove(p.getUniqueId());
+		if (Utils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
 			SendTitlePremium(p);
-			if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 				SendAcOnPremium(p);
 			}
 		} else {
 			SendTitleOnLogin(p);
-			if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 				SendAcOnLogin(p);
 			}	
 		}
@@ -87,32 +114,10 @@ public class PlayerListeners implements Listener {
 	@EventHandler
     public void OnLogoutPlayer(LogoutEvent event) {
 		Player p = event.getPlayer();
-		TitleAuth.SecurePlayerLogin.add(p.getUniqueId());
+		SecurePlayerLogin.add(p.getUniqueId());
 		SendTitleNoLogin(p);
-		if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 			SendAcNoLogin(p);
-		}
-	}
-    
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void OnDisconnect(PlayerQuitEvent e) {
-		Player p = e.getPlayer();
-		if (TitleAuth.SecurePlayerRegister.contains(p.getUniqueId())) {
-			TitleAuth.SecurePlayerRegister.remove(p.getUniqueId());
-		}
-		if (TitleAuth.SecurePlayerLogin.contains(p.getUniqueId())) {
-			TitleAuth.SecurePlayerLogin.remove(p.getUniqueId());
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void OnKick(PlayerKickEvent e) {
-		Player p = e.getPlayer();
-		if (TitleAuth.SecurePlayerRegister.contains(p.getUniqueId())) {
-			TitleAuth.SecurePlayerRegister.remove(p.getUniqueId());
-		}
-		if (TitleAuth.SecurePlayerLogin.contains(p.getUniqueId())) {
-			TitleAuth.SecurePlayerLogin.remove(p.getUniqueId());
 		}
 	}
 	
@@ -123,239 +128,188 @@ public class PlayerListeners implements Listener {
 		if (!AuthMeApi.getInstance().isRegistered(player)) {
 			//NO REGISTER
 			SendTitleNoRegister(p);
-			TitleAuth.SecurePlayerRegister.add(p.getUniqueId());
-			if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
-			    SendAcNoRegister(p); 
+			SecurePlayerRegister.add(p.getUniqueId());
+			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
+				SendAcNoRegister(p);
 			}
-			(new BukkitRunnable() {
-    			public void run() {
-    				if (p.isOnline() && TitleAuth.SecurePlayerRegister.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isRegistered(player)) {
-    					return;
-                    } else {
-                    	cancel();
-                    }
-                }
-            }).runTaskTimer((Plugin)plugin, 0L, 5L); 
 		} else {
 			//NO LOGIN
 			SendTitleNoLogin(p);
-	        TitleAuth.SecurePlayerLogin.add(p.getUniqueId());
-	        if (TitleAuth.GetCfg().getBoolean("ACTIONBAR.Enable")) {
+	        SecurePlayerLogin.add(p.getUniqueId());
+	        if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 	            SendAcNoLogin(p);
 	        }
-	        (new BukkitRunnable() {
-    			public void run() {
-    				if (p.isOnline() && TitleAuth.SecurePlayerLogin.contains(p.getUniqueId()) && !AuthMeApi.getInstance().isAuthenticated(p)) {
-    					return;
-                    } else {
-                    	cancel();
-                    }
-                }
-            }).runTaskTimer((Plugin)plugin, 0L, 5L); 
 		}
 	}
     
     private void SendAcNoRegister(Player player) {
-		if (VersionUtils.isNewVersion()) {
-			new BukkitRunnable() {
-				int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
-				@Override
-				public void run() {
-					if (!TitleAuth.SecurePlayerRegister.contains(player.getUniqueId())) {
-			        	cancel();
-			            return;
-					}
-					if (time <= 0) {
-						cancel();
-					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player)));
-					time--;
+		new BukkitRunnable() {
+			int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
+			@Override
+			public void run() {
+				if (!SecurePlayerRegister.contains(player.getUniqueId())) {
+					cancel();
+					return;
 				}
-			}.runTaskTimer(this.plugin, 0L, 20L);
-			
-		} else {
-			new BukkitRunnable() {
-				int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
-				@Override
-				public void run() {
-					if (!TitleAuth.SecurePlayerRegister.contains(player.getUniqueId())) {
-			        	cancel();
-			        	return;
-					}
-					if (time <= 0) {
-						cancel();
-					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player), 14, (Plugin)plugin);
-					time--;
+				if (time <= 0) {
+					cancel();
 				}
-			}.runTaskTimer(this.plugin, 0L, 20L);
-		}	
+				plugin.getVc().getReflection().sendActionBar(ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player), player);
+				time--;
+			}
+		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
 	
 	private void SendAcNoLogin(Player player) {
-		if (VersionUtils.isNewVersion()) {
-			new BukkitRunnable() {
-				int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
-				@Override
-				public void run() {
-					if (!TitleAuth.SecurePlayerLogin.contains(player.getUniqueId())) {
-			        	cancel();
-			        	return;
-					}
-					if (time <= 0) {
-						cancel();
-					}
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player)));
-					time--;
+		new BukkitRunnable() {
+			int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
+			@Override
+			public void run() {
+				if (!SecurePlayerLogin.contains(player.getUniqueId())) {
+					cancel();
+					return;
 				}
-			}.runTaskTimer(this.plugin, 0L, 20L);			
-		} else {
-			new BukkitRunnable() {
-				int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
-				@Override
-				public void run() {
-					if (!TitleAuth.SecurePlayerLogin.contains(player.getUniqueId())) {
-			        	cancel();
-			        	return;
-					}
-					if (time <= 0) {
-						cancel();
-					}
-					ActionBarAPI.sendActionBar(player, ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player), 14, (Plugin)plugin);
-					time--;
+				if (time <= 0) {
+					cancel();
 				}
+				plugin.getVc().getReflection().sendActionBar(ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player), player);
+				time--;
+			}
 
-			}.runTaskTimer(this.plugin, 0L, 20L);
-		}	
+		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
 	
     private void SendTitlePremium(Player player) {
-		String Title = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.AUTO-LOGIN-PREMIUM.TITLE"), player);
-		String subTitle = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.AUTO-LOGIN-PREMIUM.SUBTITLE"), player);
+		String Title = plugin.getCfg().get(player, "TITLES.AUTO-LOGIN-PREMIUM.TITLE");
+		String subTitle = plugin.getCfg().get(player, "TITLES.AUTO-LOGIN-PREMIUM.SUBTITLE");
 		
-		int Fadein = TitleAuth.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEIN");
-        int Stay = TitleAuth.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.STAY");
-        int FadeOut = TitleAuth.GetCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEOUT");
+		int fadeIn = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEIN");
+        int stay = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.STAY");
+        int fadeOut = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEOUT");
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
+			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-	        if (VersionUtils.isNewVersion()) {
-			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
-			} else {
-			    Title = ChatUtils.replaceXColor(Title, player);
-			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
-			}
+			Title = ChatUtils.replace(Title, player);
+			subTitle = ChatUtils.replace(subTitle, player);
+			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
+
 		}
 	}
 	
 	private void SendTitleNoRegister(Player player) {
-		String Title = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.NO-REGISTER.TITLE"), player);
-		String subTitle = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.NO-REGISTER.SUBTITLE"), player);
+		String Title = plugin.getCfg().get(player ,"TITLES.NO-REGISTER.TITLE");
+		String subTitle = plugin.getCfg().get(player, "TITLES.NO-REGISTER.SUBTITLE");
 		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
-			if (VersionUtils.isNewVersion()) {
-				player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
-			} else {
-		        int fadeIn = (0);
-			    int stay = (999999999);
-			    int fadeOut = (20);
-			    Title = ChatUtils.replaceXColor(Title, player);
-			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);
-		        
-		        
-			}
+			int fadeIn = (0);
+			int stay = (999999999);
+			int fadeOut = (20);
+			Title = ChatUtils.replace(Title, player);
+			subTitle = ChatUtils.replace(subTitle, player);
+			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
 	
 	private void SendTitleNoLogin(Player player) {
-		String Title = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.NO-LOGIN.TITLE"), player);
-		String subTitle = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.NO-LOGIN.SUBTITLE"), player);
+		String Title = plugin.getCfg().get(player, "TITLES.NO-LOGIN.TITLE");
+		String subTitle = plugin.getCfg().get("TITLES.NO-LOGIN.SUBTITLE");
 		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
-			if (VersionUtils.isNewVersion()) {
-			      player.sendTitle(Title, subTitle, 0, 999999999, 999999999);
-			} else {
-				int fadeIn = (0);
-			    int stay = (999999999);
-			    int fadeOut = (20);
-			    Title = ChatUtils.replaceXColor(Title, player);
-			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), Title, subTitle);   
-			}
+			int fadeIn = (0);
+			int stay = (999999999);
+			int fadeOut = (20);
+			Title = ChatUtils.replace(Title, player);
+			subTitle = ChatUtils.replace(subTitle, player);
+			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
 	
 	private void SendTitleOnRegister(Player player) {
-		String Title = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.ON-REGISTER.TITLE"), player);
-		String subTitle = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.ON-REGISTER.SUBTITLE"), player);
+		String Title = plugin.getCfg().get(player, "TITLES.ON-REGISTER.TITLE");
+		String subTitle = plugin.getCfg().get(player, "TITLES.ON-REGISTER.SUBTITLE");
 		
-		int Fadein = TitleAuth.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
-        int Stay = TitleAuth.GetCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
-        int FadeOut = TitleAuth.GetCfg().getInt("TITLES.ON-REGISTER.TIME.FADEOUT");
+		int fadeIn = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
+        int stay = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
+        int fadeOut = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.FADEOUT");
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
+			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-	        if (VersionUtils.isNewVersion()) {
-			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
-			} else {
-			    Title = ChatUtils.replaceXColor(Title, player);
-			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
-			}
+			Title = ChatUtils.replace(Title, player);
+			subTitle = ChatUtils.replace(subTitle, player);
+			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
 	
 	private void SendTitleOnLogin(Player player) {
-		String Title = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.ON-LOGIN.TITLE"), player);
-		String subTitle = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("TITLES.ON-LOGIN.SUBTITLE"), player);
+		String Title = plugin.getCfg().get(player, "TITLES.ON-LOGIN.TITLE");
+		String subTitle = plugin.getCfg().get(player, "TITLES.ON-LOGIN.SUBTITLE");
 		
-		int Fadein = TitleAuth.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
-        int Stay = TitleAuth.GetCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");
-        int FadeOut = TitleAuth.GetCfg().getInt("TITLES.ON-LOGIN.TIME.FADEOUT");
+		int fadeIn = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
+        int stay = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");
+        int fadeOut = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.FADEOUT");
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-			CMITitleMessage.send(player, Title, subTitle, Fadein, Stay, FadeOut);
+			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-	        if (VersionUtils.isNewVersion()) {
-			      player.sendTitle(Title, subTitle, Fadein, Stay, FadeOut);
-			} else {
-			    Title = ChatUtils.replaceXColor(Title, player);
-			    subTitle = ChatUtils.replaceXColor(subTitle, player);
-			    TitleAPI.sendTitles(player, Integer.valueOf(Fadein), Integer.valueOf(Stay), Integer.valueOf(FadeOut), Title, subTitle);
-			}
+			Title = ChatUtils.replace(Title, player);
+			subTitle = ChatUtils.replace(subTitle, player);
+			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
+
 		}
 	}
     
 	private void SendAcOnPremium(Player player) {
-		
-		String actionbarr = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.AUTO_LOGIN_PREMIUM.MESSAGE"), player);
-		if (VersionUtils.isNewVersion()) {
-		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
-		} else {
-            ActionBarAPI.sendActionBar(player, actionbarr, Integer.valueOf(TitleAuth.GetCfg().getInt("ACTIONBAR.AUTO_LOGIN_PREMIUM.STAY")), (Plugin)plugin);
-		}	
+		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.AUTO_LOGIN_PREMIUM.MESSAGE"), player);
+		new BukkitRunnable() {
+			int time = plugin.getCfg().getInt("ACTIONBAR.AUTO_LOGIN_PREMIUM.STAY");
+			@Override
+			public void run() {
+				if (SecurePlayerLogin.contains(player.getUniqueId())) {
+					cancel();
+				}
+				if (time <= 0) {
+					cancel();
+				}
+				plugin.getVc().getReflection().sendActionBar(message, player);
+				time--;
+			}
+		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
     
 	private void SendAcOnRegister(Player player) {
-		
-		String actionbarr = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.ON_REGISTER.MESSAGE"), player);
-		if (VersionUtils.isNewVersion()) {
-		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
-		} else {
-            ActionBarAPI.sendActionBar(player, actionbarr, Integer.valueOf(TitleAuth.GetCfg().getInt("ACTIONBAR.ON_REGISTER.STAY")), (Plugin)plugin);
-		}	
+		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.ON_REGISTER.MESSAGE"), player);
+		new BukkitRunnable() {
+			int time = plugin.getCfg().getInt("ACTIONBAR.ON_REGISTER.STAY");
+			@Override
+			public void run() {
+				if (SecurePlayerRegister.contains(player.getUniqueId())) {
+					cancel();
+				}
+				if (time <= 0) {
+					cancel();
+				}
+				plugin.getVc().getReflection().sendActionBar(message, player);
+				time--;
+			}
+		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
 	
 	private void SendAcOnLogin(Player player) {
-		
-		String actionbarr = ChatUtils.replaceXColor(TitleAuth.GetCfg().getString("ACTIONBAR.ON_LOGIN.MESSAGE"), player);
-		if (VersionUtils.isNewVersion()) {
-		   player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(actionbarr));			
-		} else {
-			ActionBarAPI.sendActionBar(player, actionbarr, Integer.valueOf(TitleAuth.GetCfg().getInt("ACTIONBAR.ON_LOGIN.STAY")), (Plugin)plugin);
-		}	
+		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.ON_LOGIN.MESSAGE"), player);
+		new BukkitRunnable() {
+			int time = plugin.getCfg().getInt("ACTIONBAR.ON_LOGIN.STAY");
+			@Override
+			public void run() {
+				if (SecurePlayerLogin.contains(player.getUniqueId())) {
+					cancel();
+				}
+				if (time <= 0) {
+					cancel();
+				}
+				plugin.getVc().getReflection().sendActionBar(message, player);
+				time--;
+			}
+		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
 }

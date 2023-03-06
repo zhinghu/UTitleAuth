@@ -1,16 +1,16 @@
-package com.undeadlydev.UTitleAuth.Commands;
+package com.undeadlydev.UTitleAuth.cmds;
 
+import com.undeadlydev.UTitleAuth.utls.CommandUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.undeadlydev.UTitleAuth.Utils.CommandUtils;
+import com.undeadlydev.UTitleAuth.utls.ChatUtils;
 
-public class UTitleAuthCommand extends CommandUtils<TitleAuth> {
+public class utitleauthCMD extends CommandUtils<TitleAuth> {
 	public TitleAuth plugin;
-    public UTitleAuthCommand(TitleAuth plugin) {
+    public utitleauthCMD(TitleAuth plugin) {
         super(plugin, "utitleauth");
         registerCommand();
         this.plugin = plugin;
@@ -25,8 +25,8 @@ public class UTitleAuthCommand extends CommandUtils<TitleAuth> {
            }
            if (args.length == 1) {
                if (args[0].equalsIgnoreCase("reload")) {
-               	TitleAuth.GetCfg().Reload();
-               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + TitleAuth.GetCfg().getString("MESSAGE.RELOAD")));
+               	plugin.getCfg().reload();
+               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
                } else {
             	   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));  
@@ -42,12 +42,12 @@ public class UTitleAuthCommand extends CommandUtils<TitleAuth> {
                 }
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
-                    	TitleAuth.GetCfg().Reload();
-                    	player.sendMessage(ChatUtils.colorCodes(TitleAuth.GetCfg().getString("MESSAGE.RELOAD")));
+                        plugin.getCfg().reload();
+                    	player.sendMessage(ChatUtils.colorCodes(plugin.getCfg().get("MESSAGE.RELOAD")));
                     }
                 }
             } else {
-            	player.sendMessage(ChatUtils.colorCodes(TitleAuth.GetCfg().getString("MESSAGE.NO_AUTHORIZED")));
+            	player.sendMessage(ChatUtils.colorCodes(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED")));
             	return true;
             }
         }

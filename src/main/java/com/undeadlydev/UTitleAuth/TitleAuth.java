@@ -1,8 +1,10 @@
 package com.undeadlydev.UTitleAuth;
 
-import java.util.Set;
-import java.util.UUID;
-
+import com.undeadlydev.UTitleAuth.config.Settings;
+import com.undeadlydev.UTitleAuth.controllers.VersionController;
+import com.undeadlydev.UTitleAuth.managers.AddonManager;
+import com.undeadlydev.UTitleAuth.utls.Utils;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -10,30 +12,34 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.common.collect.Sets;
-import com.undeadlydev.UTitleAuth.Commands.UTitleAuthCommand;
-import com.undeadlydev.UTitleAuth.Listeners.PlayerListeners;
-import com.undeadlydev.UTitleAuth.Utils.ChatUtils;
-import com.undeadlydev.UTitleAuth.Utils.ConfigUtils;
-import com.undeadlydev.UTitleAuth.Utils.ConsoleUtils;
-import com.undeadlydev.UTitleAuth.Utils.Metrics;
+import com.undeadlydev.UTitleAuth.cmds.utitleauthCMD;
+import com.undeadlydev.UTitleAuth.listeners.PlayerListeners;
+import com.undeadlydev.UTitleAuth.utls.ChatUtils;
+import com.undeadlydev.UTitleAuth.data.Metrics;
 
 public class TitleAuth  extends JavaPlugin {
 
 	private static TitleAuth instance;
-	public static ConfigUtils cfg;
-	
-	public final static Set<UUID> SecurePlayerRegister = Sets.newHashSet();
-	public final static Set<UUID> SecurePlayerLogin = Sets.newHashSet();
-	
-    public static JavaPlugin getInt() {
-        return (JavaPlugin)instance;
+
+    private AddonManager adm;
+    private VersionController vc;
+    private Settings cfg;
+
+    public static TitleAuth get() {
+        return instance;
     }
-    
-    public static ConfigUtils GetCfg() {
+
+    public AddonManager getAdm() {
+        return adm;
+    }
+
+    public VersionController getVc() {
+        return vc;
+    }
+
+    public Settings getCfg() {
         return cfg;
     }
-    
     public static FileConfiguration getOtherConfig() {
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
         FileConfiguration config = p.getConfig();
@@ -41,67 +47,67 @@ public class TitleAuth  extends JavaPlugin {
     }
     
     public void onEnable() {
-        ConsoleUtils.getLoggs("&7-----------------------------------", true);
-        super.onEnable();
         instance = this;
-        EnableMetrics();
+        vc = new VersionController(this);
+        cfg = new Settings("Config", true, false);
+        adm = new AddonManager();
+        new utitleauthCMD(this);
+        adm.reload();
         LoadHooks();
-        cfg = new ConfigUtils("Config");
-        
-        new UTitleAuthCommand(this);
         PluginManager pm = getServer().getPluginManager();
-        
-        pm.registerEvents((Listener)new PlayerListeners(this), (Plugin)this);
-        
-        ConsoleUtils.getLoggs(" ", true);
-        ConsoleUtils.getLoggs("&7-----------------------------------", true);
-        ConsoleUtils.getLoggs(" ", true);
-        ConsoleUtils.getLoggs("&fServer: &c" + getServer().getName() + " " + getServer().getVersion() , true);
-        ConsoleUtils.getLoggs("&fSuccessfully Plugin &aEnabled! &cv" + getDescription().getVersion(), true);
-        ConsoleUtils.getLoggs("&fCreator: &eBrunoAvixdub", true);
-        ConsoleUtils.getLoggs("&fThanks for use my plugin :D", true);
-        ConsoleUtils.getLoggs(" ", true);
-        ConsoleUtils.getLoggs("&7-----------------------------------", true); 
+        pm.registerEvents(new PlayerListeners(this), this);
+        EnableMetrics();
+        sendLogMessage(" ");
+        sendLogMessage("&7-----------------------------------");
+        sendLogMessage(" ");
+        sendLogMessage("&fServer: &c" + getServer().getName() + " ");
+        sendLogMessage("&fSuccessfully Plugin &aEnabled! &cv" + getDescription().getVersion());
+        sendLogMessage("&fCreator: &eUnDeadlyDev");
+        sendLogMessage("&fThanks for use my plugin :D");
+        sendLogMessage(" ");
+        sendLogMessage("&7-----------------------------------");
     }
     
     public void LoadHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
-    		ConsoleUtils.getLoggs("&fPlugin &aAuthMe &aHooked Successfully!", true);
+            sendLogMessage("&fPlugin &aAuthMe &aHooked Successfully!");
     	} else {
-    		ConsoleUtils.getError("&fPlugin &cAuthMe &cHooked not found!", true);
-	    	Bukkit.getPluginManager().disablePlugin((Plugin)this);
+            sendLogMessage("&fPlugin &cAuthMe &cHooked not found!");
+	    	Bukkit.getPluginManager().disablePlugin(this);
     	}
         if (Bukkit.getPluginManager().isPluginEnabled("FastLogin")) {
-        	ChatUtils.FastLogin(true);
-    		ConsoleUtils.getLoggs("&fPlugin &aFastLogin &bAutoLogin Premium &aHooked Successfully!", true);
+        	Utils.FastLogin(true);
+            sendLogMessage("&fPlugin &aFastLogin &bAutoLogin Premium &aHooked Successfully!");
     	} else {
-    		ChatUtils.FastLogin(false);
+    		Utils.FastLogin(false);
     	}
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            ConsoleUtils.getLoggs("&fPlugin &ePlaceholderAPI &aHooked Successfully!", true);
-            ChatUtils.placeholderAPI(true);
+            sendLogMessage("&fPlugin &ePlaceholderAPI &aHooked Successfully!");
         } else {
-        	ConsoleUtils.getError("&fPlugin &ePlaceholderAPI &cIs hooked not found!", true);
-        	ChatUtils.placeholderAPI(false);
+            sendLogMessage("&fPlugin &ePlaceholderAPI &cIs hooked not found!");
         }
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-        	ConsoleUtils.getLoggs("&fPlugin &aCMILib &aHooked Successfully!", true);
+            sendLogMessage("&fPlugin &aCMILib &aHooked Successfully!");
         }
     }
     
+    public void onDisable() {
+        sendLogMessage("&7-----------------------------------");
+        sendLogMessage("");
+        sendLogMessage("&fSuccessfully Plugin &cDisable!");
+        sendLogMessage("&fCreator: &eUnDeadlyDev");
+        sendLogMessage("&fThanks for use my plugin :D");
+        sendLogMessage(" ");
+        sendLogMessage("&7-----------------------------------");
+    }
+
+    public void sendLogMessage(String msg) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&e&lUTitleAuth&7] &8| " + msg));
+    }
+
     private void EnableMetrics() {
         int pluginId = 14756;
         Metrics metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
-    }
-    
-    public void onDisable() {
-    	ConsoleUtils.getLoggs("&7-----------------------------------", true);
-    	ConsoleUtils.getLoggs("", true);
-    	ConsoleUtils.getLoggs("&fSuccessfully Plugin &cDisable!", true);
-    	ConsoleUtils.getLoggs("&fCreator: &eBrunoAvixdub", true);
-    	ConsoleUtils.getLoggs("&fThanks for use my plugin :D", true);
-    	ConsoleUtils.getLoggs("", true);
-    	ConsoleUtils.getLoggs("&7-----------------------------------", true);
     }
 }
