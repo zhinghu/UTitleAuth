@@ -1,12 +1,12 @@
 package com.undeadlydev.UTitleAuth.cmds;
 
-import com.undeadlydev.UTitleAuth.utls.CommandUtils;
+import com.undeadlydev.UTitleAuth.utils.CommandUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utls.ChatUtils;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 
 public class utitleauthCMD extends CommandUtils<TitleAuth> {
 	public TitleAuth plugin;

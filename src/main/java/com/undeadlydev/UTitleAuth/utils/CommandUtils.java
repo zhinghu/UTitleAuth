@@ -1,4 +1,4 @@
-package com.undeadlydev.UTitleAuth.utls;
+package com.undeadlydev.UTitleAuth.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

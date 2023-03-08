@@ -3,18 +3,16 @@ package com.undeadlydev.UTitleAuth;
 import com.undeadlydev.UTitleAuth.config.Settings;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
-import com.undeadlydev.UTitleAuth.utls.Utils;
+import com.undeadlydev.UTitleAuth.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.undeadlydev.UTitleAuth.cmds.utitleauthCMD;
-import com.undeadlydev.UTitleAuth.listeners.PlayerListeners;
-import com.undeadlydev.UTitleAuth.utls.ChatUtils;
+import com.undeadlydev.UTitleAuth.listeners.GeneralListeners;
 import com.undeadlydev.UTitleAuth.data.Metrics;
 
 public class TitleAuth  extends JavaPlugin {
@@ -48,14 +46,15 @@ public class TitleAuth  extends JavaPlugin {
     
     public void onEnable() {
         instance = this;
+        PluginManager pm = getServer().getPluginManager();
+        sendLogMessage("&7-----------------------------------");
         vc = new VersionController(this);
         cfg = new Settings("Config", true, false);
         adm = new AddonManager();
         new utitleauthCMD(this);
         adm.reload();
         LoadHooks();
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new PlayerListeners(this), this);
+        pm.registerEvents(new GeneralListeners(this), this);
         EnableMetrics();
         sendLogMessage(" ");
         sendLogMessage("&7-----------------------------------");
@@ -87,7 +86,10 @@ public class TitleAuth  extends JavaPlugin {
             sendLogMessage("&fPlugin &ePlaceholderAPI &cIs hooked not found!");
         }
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+            Utils.CMILib(true);
             sendLogMessage("&fPlugin &aCMILib &aHooked Successfully!");
+        } else {
+            Utils.CMILib(false);
         }
     }
     

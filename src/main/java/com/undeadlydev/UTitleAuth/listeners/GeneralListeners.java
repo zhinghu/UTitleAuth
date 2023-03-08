@@ -1,8 +1,8 @@
 package com.undeadlydev.UTitleAuth.listeners;
 
 import com.google.common.collect.Sets;
-import com.undeadlydev.UTitleAuth.utls.Utils;
-import org.bukkit.Bukkit;
+import com.undeadlydev.UTitleAuth.utils.CenterMessage;
+import com.undeadlydev.UTitleAuth.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,14 +10,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.games647.fastlogin.bukkit.FastLoginBukkit;
 import com.github.games647.fastlogin.core.PremiumStatus;
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utls.ChatUtils;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import fr.xephi.authme.events.LoginEvent;
@@ -26,8 +25,6 @@ import fr.xephi.authme.events.RegisterEvent;
 import fr.xephi.authme.events.UnregisterByAdminEvent;
 import fr.xephi.authme.events.UnregisterByPlayerEvent;
 import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
@@ -35,7 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerListeners implements Listener {
+public class GeneralListeners implements Listener {
 	private TitleAuth plugin;
 
 	private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
@@ -43,7 +40,7 @@ public class PlayerListeners implements Listener {
 
 	private static Map<String, BukkitTask> cancelac = new HashMap<>();
 
-	public PlayerListeners(TitleAuth plugin) {
+	public GeneralListeners(TitleAuth plugin) {
 		this.plugin = plugin;
 	}
 
@@ -100,6 +97,9 @@ public class PlayerListeners implements Listener {
 			cancelac.remove(p.getName());
 		    SendAcOnRegister(p);
 		}
+        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Enable")) {
+            SendWOnRegister(p);
+        }
 	}
 	
 	@EventHandler
@@ -112,14 +112,53 @@ public class PlayerListeners implements Listener {
 				cancelac.remove(p.getName());
 				SendAcOnPremium(p);
 			}
+            if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Enable")) {
+                SendWPremium(p);
+            }
 		} else {
 			SendTitleOnLogin(p);
 			if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
 				cancelac.remove(p.getName());
 				SendAcOnLogin(p);
-			}	
+			}
+			if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Enable")) {
+				SendWOnLogin(p);
+			}
 		}
 	}
+
+    private void SendWOnRegister(Player player) {
+        String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Message"), player);
+        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Enable")) {
+            for (String s : mesage.split("\\n")) {
+                player.sendMessage(CenterMessage.getCenteredMessage(s));
+            }
+        } else {
+            player.sendMessage(mesage);
+        }
+    }
+
+	private void SendWOnLogin(Player player) {
+		String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Message"), player);
+		if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Enable")) {
+			for (String s : mesage.split("\\n")) {
+				player.sendMessage(CenterMessage.getCenteredMessage(s));
+			}
+		} else {
+			player.sendMessage(mesage);
+		}
+	}
+
+    private void SendWPremium(Player player) {
+        String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Message"), player);
+        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Enable")) {
+            for (String s : mesage.split("\\n")) {
+                player.sendMessage(CenterMessage.getCenteredMessage(s));
+            }
+        } else {
+            player.sendMessage(mesage);
+        }
+    }
 	
 	@EventHandler
     public void OnLogoutPlayer(LogoutEvent event) {
@@ -196,7 +235,7 @@ public class PlayerListeners implements Listener {
 		int fadeIn = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEIN");
         int stay = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.STAY");
         int fadeOut = plugin.getCfg().getInt("TITLES.AUTO-LOGIN-PREMIUM.TIME.FADEOUT");
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+        if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
 			Title = ChatUtils.replace(Title, player);
@@ -209,7 +248,7 @@ public class PlayerListeners implements Listener {
 	private void SendTitleNoRegister(Player player) {
 		String Title = plugin.getCfg().get(player ,"TITLES.NO-REGISTER.TITLE");
 		String subTitle = plugin.getCfg().get(player, "TITLES.NO-REGISTER.SUBTITLE");
-		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+		if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
 			int fadeIn = (0);
@@ -224,7 +263,7 @@ public class PlayerListeners implements Listener {
 	private void SendTitleNoLogin(Player player) {
 		String Title = plugin.getCfg().get(player, "TITLES.NO-LOGIN.TITLE");
 		String subTitle = plugin.getCfg().get("TITLES.NO-LOGIN.SUBTITLE");
-		if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+		if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
 		} else {
 			int fadeIn = (0);
@@ -243,7 +282,7 @@ public class PlayerListeners implements Listener {
 		int fadeIn = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.FADEIN");
         int stay = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.STAY");
         int fadeOut = plugin.getCfg().getInt("TITLES.ON-REGISTER.TIME.FADEOUT");
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+        if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
 			Title = ChatUtils.replace(Title, player);
@@ -259,7 +298,7 @@ public class PlayerListeners implements Listener {
 		int fadeIn = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.FADEIN");
         int stay = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.STAY");
         int fadeOut = plugin.getCfg().getInt("TITLES.ON-LOGIN.TIME.FADEOUT");
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+        if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
 			Title = ChatUtils.replace(Title, player);
@@ -322,4 +361,6 @@ public class PlayerListeners implements Listener {
 			}
 		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
+
+
 }

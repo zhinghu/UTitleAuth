@@ -1,16 +1,13 @@
 package com.undeadlydev.UTitleAuth.nms;
 
 import com.undeadlydev.UTitleAuth.superclass.NMSReflection;
-import com.undeadlydev.UTitleAuth.utls.VersionUtils;
+import com.undeadlydev.UTitleAuth.utils.VersionUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -28,7 +25,6 @@ public class NMSReflectionNew extends NMSReflection {
             e.printStackTrace();
         }
     }
-
 
     public void sendActionBar(String msg, Player... players) {
         sendActionBar(msg, Arrays.asList(players));
@@ -57,7 +53,6 @@ public class NMSReflectionNew extends NMSReflection {
             }
         }
     }
-
     private void send(String title, String subtitle, Integer fadeIn, Integer stay, Integer fadeOut, Player player) {
         try{
             Object chat = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", new Class[] { String.class }).invoke(null, new Object[] { "{\"text\":\"" + title + "\"}" });

@@ -1,6 +1,5 @@
-package com.undeadlydev.UTitleAuth.utls;
+package com.undeadlydev.UTitleAuth.utils;
 
-import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

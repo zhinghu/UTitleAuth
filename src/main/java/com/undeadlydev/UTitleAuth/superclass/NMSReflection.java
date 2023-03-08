@@ -51,5 +51,4 @@ public abstract class NMSReflection {
     public abstract void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Player... players);
 
     public abstract void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Collection<Player> players);
-
 }

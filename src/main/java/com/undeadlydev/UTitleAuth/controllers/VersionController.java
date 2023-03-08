@@ -4,7 +4,7 @@ import com.undeadlydev.UTitleAuth.TitleAuth;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionNew;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionOld;
 import com.undeadlydev.UTitleAuth.superclass.NMSReflection;
-import com.undeadlydev.UTitleAuth.utls.VersionUtils;
+import com.undeadlydev.UTitleAuth.utils.VersionUtils;
 
 public class VersionController {
 

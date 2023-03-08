@@ -5,8 +5,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -102,4 +100,5 @@ public class NMSReflectionOld extends NMSReflection {
             e.printStackTrace();
         }
     }
+
 }

@@ -1,57 +1,83 @@
 TITLES:
   NO-REGISTER:
-    TITLE: '&aPlease Register'
-    SUBTITLE: '&eUse /register password password'
+    TITLE: "&aPlease Register"
+    SUBTITLE: "&eUse /register password password"
 
   NO-LOGIN:
-    TITLE: '&aPlease Login'
-    SUBTITLE: '&eUse /login password'    
+    TITLE: "&aPlease Login"
+    SUBTITLE: "&eUse /login password"
 
   ON-REGISTER:
-    TITLE: '&aREGISTER COMPLETE'
-    SUBTITLE: '&eRegister sucellyfull'
+    TITLE: "&aREGISTER COMPLETE"
+    SUBTITLE: "&eRegister sucellyfull"
     TIME:
       FADEIN: 5
       STAY: 30
       FADEOUT: 5
-      
+
   ON-LOGIN:
-    TITLE: '&aLOGIN COMPLETE'
-    SUBTITLE: '&eLogin sucellyfull'
+    TITLE: "&aLOGIN COMPLETE"
+    SUBTITLE: "&eLogin sucellyfull"
     TIME:
       FADEIN: 5
       STAY: 30
       FADEOUT: 5
-      
+
   AUTO-LOGIN-PREMIUM:
-    TITLE: '&aPREMIUM ACCOUNT'
-    SUBTITLE: '&eLogin automatically'
+    TITLE: "&aPREMIUM ACCOUNT"
+    SUBTITLE: "&eLogin automatically"
     TIME:
       FADEIN: 5
       STAY: 30
       FADEOUT: 5
-      
+
 ACTIONBAR:
   Enable: true
-  
   NO_REGISTER:
-    MESSAGE: '&CTimeleft: &e<time>'
-
+    MESSAGE: "&CTimeleft: &e<time>"
   NO_LOGIN:
-    MESSAGE: '&CTimeleft: &e<time>'
-    
+    MESSAGE: "&CTimeleft: &e<time>"
+
   ON_REGISTER:
-    STAY: 30
-    MESSAGE: '&eREGISTER COMPLETE! WELCOME {player}'
+    STAY: 5
+    MESSAGE: "&eREGISTER COMPLETE! WELCOME {player}"
 
   ON_LOGIN:
-    STAY: 30
-    MESSAGE: '&aWELCOME BACK {player}'
-    
+    STAY: 5
+    MESSAGE: "&aWELCOME BACK {player}"
+
   AUTO_LOGIN_PREMIUM:
-    STAY: 30
-    MESSAGE: '&aWELCOME BACK {player}'
+    STAY: 5
+    MESSAGE: "&aWELCOME BACK {player}"
 
 MESSAGE:
-  RELOAD: '&cThe config was reloaded.'
-  NO_AUTHORIZED: '&cYou are not authorized for this.'
+  RELOAD: "&cThe config was reloaded."
+  NO_AUTHORIZED: "&cYou are not authorized for this."
+  WELCOME-MESSAGE:
+    ON_REGISTER:
+      Enable: true
+      Center-Message: true
+      Message: |-
+        &7
+        &7&6&lWELCOME &c&l{player}
+        &7
+        &7&6&lYour registration was successful
+        &7
+    ON_LOGIN:
+      Enable: true
+      Center-Message: true
+      Message: |-
+        &7
+        &7&a&lThanks for playing &c&l{player}
+        &7
+        &7Your login was successful
+        &7
+    AUTO_LOGIN_PREMIUM:
+      Enable: true
+      Center-Message: true
+      Message: |-
+        &7
+        &7&a&lThanks for playing &c&l{player}
+        &7
+        &7&aYou have been auto-logged as a premium user
+        &7
