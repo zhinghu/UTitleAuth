@@ -25,11 +25,13 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
            }
            if (args.length == 1) {
                if (args[0].equalsIgnoreCase("reload")) {
-               	plugin.getCfg().reload();
-               	commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                   plugin.getCfg().reload();
+                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                   return true;
                } else {
             	   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
-                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));  
+                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));
+                   return true;
                }
            }
         if (commandSender instanceof Player) {
@@ -43,11 +45,12 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
                         plugin.getCfg().reload();
-                    	player.sendMessage(ChatUtils.colorCodes(plugin.getCfg().get("MESSAGE.RELOAD")));
+                    	player.sendMessage(plugin.getCfg().get("MESSAGE.RELOAD"));
+                        return true;
                     }
                 }
             } else {
-            	player.sendMessage(ChatUtils.colorCodes(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED")));
+            	player.sendMessage(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED"));
             	return true;
             }
         }

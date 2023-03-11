@@ -16,7 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.games647.fastlogin.bukkit.FastLoginBukkit;
 import com.github.games647.fastlogin.core.PremiumStatus;
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import fr.xephi.authme.events.LoginEvent;
@@ -128,7 +127,7 @@ public class GeneralListeners implements Listener {
 	}
 
     private void SendWOnRegister(Player player) {
-        String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Message"), player);
+        String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Message");
         if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Enable")) {
             for (String s : mesage.split("\\n")) {
                 player.sendMessage(CenterMessage.getCenteredMessage(s));
@@ -139,7 +138,7 @@ public class GeneralListeners implements Listener {
     }
 
 	private void SendWOnLogin(Player player) {
-		String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Message"), player);
+		String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Message");
 		if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Enable")) {
 			for (String s : mesage.split("\\n")) {
 				player.sendMessage(CenterMessage.getCenteredMessage(s));
@@ -150,7 +149,7 @@ public class GeneralListeners implements Listener {
 	}
 
     private void SendWPremium(Player player) {
-        String mesage = ChatUtils.replace(plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Message"), player);
+        String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Message");
         if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Enable")) {
             for (String s : mesage.split("\\n")) {
                 player.sendMessage(CenterMessage.getCenteredMessage(s));
@@ -201,7 +200,7 @@ public class GeneralListeners implements Listener {
 				if (time <= 0) {
 					cancel();
 				}
-				plugin.getVc().getReflection().sendActionBar(ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player), player);
+				plugin.getVc().getReflection().sendActionBar(plugin.getCfg().get(player, "ACTIONBAR.NO_REGISTER.MESSAGE").replace("<time>", String.valueOf(time)), player);
 				time--;
 			}
 		}).runTaskTimer(plugin, 0L, 20L);
@@ -220,7 +219,7 @@ public class GeneralListeners implements Listener {
 				if (time <= 0) {
 					cancel();
 				}
-				plugin.getVc().getReflection().sendActionBar(ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player), player);
+				plugin.getVc().getReflection().sendActionBar(plugin.getCfg().get(player, "ACTIONBAR.NO_LOGIN.MESSAGE").replace("<time>", String.valueOf(time)), player);
 				time--;
 			}
 
@@ -238,8 +237,6 @@ public class GeneralListeners implements Listener {
         if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-			Title = ChatUtils.replace(Title, player);
-			subTitle = ChatUtils.replace(subTitle, player);
 			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 
 		}
@@ -254,8 +251,6 @@ public class GeneralListeners implements Listener {
 			int fadeIn = (0);
 			int stay = (999999999);
 			int fadeOut = (20);
-			Title = ChatUtils.replace(Title, player);
-			subTitle = ChatUtils.replace(subTitle, player);
 			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
@@ -269,8 +264,6 @@ public class GeneralListeners implements Listener {
 			int fadeIn = (0);
 			int stay = (999999999);
 			int fadeOut = (20);
-			Title = ChatUtils.replace(Title, player);
-			subTitle = ChatUtils.replace(subTitle, player);
 			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
@@ -285,8 +278,6 @@ public class GeneralListeners implements Listener {
         if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-			Title = ChatUtils.replace(Title, player);
-			subTitle = ChatUtils.replace(subTitle, player);
 			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 		}
 	}
@@ -301,15 +292,13 @@ public class GeneralListeners implements Listener {
         if (Utils.CMILib) {
 			CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
 		} else {
-			Title = ChatUtils.replace(Title, player);
-			subTitle = ChatUtils.replace(subTitle, player);
 			plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
 
 		}
 	}
     
 	private void SendAcOnPremium(Player player) {
-		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.AUTO_LOGIN_PREMIUM.MESSAGE"), player);
+		String message = plugin.getCfg().get(player, "ACTIONBAR.AUTO_LOGIN_PREMIUM.MESSAGE");
 		new BukkitRunnable() {
 			int time = plugin.getCfg().getInt("ACTIONBAR.AUTO_LOGIN_PREMIUM.STAY");
 			@Override
@@ -327,7 +316,7 @@ public class GeneralListeners implements Listener {
 	}
     
 	private void SendAcOnRegister(Player player) {
-		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.ON_REGISTER.MESSAGE"), player);
+		String message = plugin.getCfg().get(player, "ACTIONBAR.ON_REGISTER.MESSAGE");
 		new BukkitRunnable() {
 			int time = plugin.getCfg().getInt("ACTIONBAR.ON_REGISTER.STAY");
 			@Override
@@ -345,7 +334,7 @@ public class GeneralListeners implements Listener {
 	}
 	
 	private void SendAcOnLogin(Player player) {
-		String message = ChatUtils.replace(plugin.getCfg().get(player, "ACTIONBAR.ON_LOGIN.MESSAGE"), player);
+		String message = plugin.getCfg().get(player, "ACTIONBAR.ON_LOGIN.MESSAGE");
 		new BukkitRunnable() {
 			int time = plugin.getCfg().getInt("ACTIONBAR.ON_LOGIN.STAY");
 			@Override

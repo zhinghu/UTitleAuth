@@ -5,6 +5,7 @@ import com.undeadlydev.UTitleAuth.utils.VersionUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -31,11 +32,10 @@ public class NMSReflectionNew extends NMSReflection {
     }
 
     public void sendActionBar(String msg, Collection<Player> players) {
-        BaseComponent[] text = new ComponentBuilder(msg).create();
         for (Player p : players) {
             if (p == null || !p.isOnline())
                 continue;
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, text);
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
         }
     }
 

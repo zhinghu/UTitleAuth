@@ -17,21 +17,6 @@ public abstract class NMSReflection {
         }
     }
 
-    public static Class<?> getNMSClassArray(String name)
-    {
-        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        return getClass("[Lnet.minecraft.server." + version + "." + name+";");
-
-    }
-
-    public static Class<?> getOBClass(String name) {
-        try {
-            return Class.forName("org.bukkit.craftbukkit." + version + "." + name);
-        } catch (Exception var3) {
-            return null;
-        }
-    }
-
     public static Class<?> getClass(String name) {
         try {
             return Class.forName(name);
