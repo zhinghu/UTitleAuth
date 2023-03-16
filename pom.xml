@@ -83,7 +83,7 @@
             <artifactId>API</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/extras/CMILib1.2.4.6.jar</systemPath>
+            <systemPath>${project.basedir}/libs/extras/CMILib1.2.5.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>FastLogin</groupId>
