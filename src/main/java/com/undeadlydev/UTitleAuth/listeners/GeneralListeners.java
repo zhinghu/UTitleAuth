@@ -79,11 +79,15 @@ public class GeneralListeners implements Listener {
 	
 	@EventHandler
     public void UnRegisterByAdmin(UnregisterByAdminEvent event) {
-    	Player p = event.getPlayer();
-    	SendTitleNoRegister(p);
+		if (event.getPlayer() == null)
+			return;
+		if (!event.getPlayer().isOnline())
+			return;
+		Player p = event.getPlayer();
+		SendTitleNoRegister(p);
 		SecurePlayerRegister.add(p.getUniqueId());
 		if (plugin.getCfg().getBoolean("ACTIONBAR.Enable")) {
-		    SendAcNoRegister(p); 
+			SendAcNoRegister(p);
 		}
     }
 	

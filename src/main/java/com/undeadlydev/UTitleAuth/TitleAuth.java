@@ -3,6 +3,7 @@ package com.undeadlydev.UTitleAuth;
 import com.undeadlydev.UTitleAuth.config.Settings;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -59,7 +60,7 @@ public class TitleAuth  extends JavaPlugin {
         sendLogMessage(" ");
         sendLogMessage("&7-----------------------------------");
         sendLogMessage(" ");
-        sendLogMessage("&fServer: &c" + getServer().getName() + " ");
+        sendLogMessage("&fServer: &c" + getServer().getName() + " " + getServer().getBukkitVersion());
         sendLogMessage("&fSuccessfully Plugin &aEnabled! &cv" + getDescription().getVersion());
         sendLogMessage("&fCreator: &eUnDeadlyDev");
         sendLogMessage("&fThanks for use my plugin :D");
@@ -104,7 +105,7 @@ public class TitleAuth  extends JavaPlugin {
     }
 
     public void sendLogMessage(String msg) {
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&e&lUTitleAuth&7] &8| " + msg));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.parseLegacy("&7[&e&lUTitleAuth&7] &8| " + msg));
     }
 
     private void EnableMetrics() {

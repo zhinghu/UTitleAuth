@@ -10,15 +10,23 @@ import org.bukkit.entity.Player;
 
 public class ChatUtils {
 
-    private static Pattern HEX_PATTERN = Pattern.compile("<#([A-Fa-f0-9]){6}>");
+    private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("[<](#[0-9A-Fa-f]{6}+)[>]");
 
     public static String colorCodes(String paramString) {
-        String coloredText = paramString;
-        if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16)) {
-            coloredText = color(coloredText);
+        if (paramString == null)
+            return null;
+        if (VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16) && HEX_COLOR_PATTERN.matcher(paramString).find()) {
+            String str1 = null;
+            String str2 = null;
+            for (Matcher matcher = HEX_COLOR_PATTERN.matcher(paramString); matcher.find(); paramString = paramString.replace(str1, str2)) {
+                str1 = matcher.group();
+                StringBuilder stringBuilder = new StringBuilder("§x");
+                for (char c : str1.substring(2, matcher.group().length() - 1).toUpperCase().toCharArray())
+                    stringBuilder.append('§').append(c);
+                str2 = stringBuilder.toString();
+            }
         }
-        coloredText = ChatColor.translateAlternateColorCodes('&', coloredText);
-        return coloredText;
+        return parseLegacy(paramString);
     }
 
     public static String replace(String string, Player p) {
@@ -36,16 +44,7 @@ public class ChatUtils {
         return newString;
     }
 
-    private static String color(String coloredText) {
-        Matcher matcher = HEX_PATTERN.matcher(coloredText);
-        while (matcher.find()) {
-            ChatColor hexColor = ChatColor.of(matcher.group().substring(1, matcher.group().length() - 1));
-            String before = coloredText.substring(0, matcher.start());
-            String after = coloredText.substring(matcher.end());
-            coloredText = before + hexColor + after;
-            matcher = HEX_PATTERN.matcher(coloredText);
-
-        }
-        return coloredText;
+    public static String parseLegacy(String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }
