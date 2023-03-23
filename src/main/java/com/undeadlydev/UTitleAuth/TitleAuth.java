@@ -3,6 +3,7 @@ package com.undeadlydev.UTitleAuth;
 import com.undeadlydev.UTitleAuth.config.Settings;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
+import com.undeadlydev.UTitleAuth.superclass.UpdateChecker;
 import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -66,6 +67,7 @@ public class TitleAuth  extends JavaPlugin {
         sendLogMessage("&fThanks for use my plugin :D");
         sendLogMessage(" ");
         sendLogMessage("&7-----------------------------------");
+        CheckUpdate();
     }
     
     public void LoadHooks() {
@@ -107,5 +109,15 @@ public class TitleAuth  extends JavaPlugin {
         int pluginId = 14756;
         Metrics metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
+    }
+
+    private void CheckUpdate() {
+        new UpdateChecker(this, 88058).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                sendLogMessage("&aThere is not a new update available.");
+            } else {
+                sendLogMessage("&cThere is a new update available.");
+            }
+        });
     }
 }
