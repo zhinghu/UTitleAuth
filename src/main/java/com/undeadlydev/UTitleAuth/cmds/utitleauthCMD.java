@@ -12,48 +12,50 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
 	public TitleAuth plugin;
     public utitleauthCMD(TitleAuth plugin) {
         super(plugin, "utitleauth");
+        setPermission("utitleauth.admin");
+        setPermissionMessage(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED"));
+        addTabbComplete(0, "reload");
         registerCommand();
         this.plugin = plugin;
     }
   
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (!(commandSender instanceof Player))
-        	if (args.length == 0) {
-        		commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
-                commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));
+        if (!(commandSender instanceof Player)) {
+            if (args.length < 1) {
+                sendHelp(commandSender);
                 return true;
-           }
-           if (args.length == 1) {
-               if (args[0].equalsIgnoreCase("reload")) {
-                   plugin.getCfg().reload();
-                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
-                   return true;
-               } else {
-            	   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
-                   commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));
-                   return true;
-               }
-           }
+            }
+            switch (args[0].toLowerCase()) {
+                case "reload":
+                    plugin.getCfg().reload();
+                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                    break;
+                default:
+                    sendHelp(commandSender);
+                    break;
+            }
+        }
         if (commandSender instanceof Player) {
-            Player player = (Player)commandSender;
-            if (player.hasPermission("utitleauth.admin")) {
-                if (args.length == 0) {
-                     player.sendMessage(ChatUtils.colorCodes("&c&lAdmin Commands."));
-                     player.sendMessage(ChatUtils.colorCodes("&e/utitleauth reload &7(Reload Title, Subtitle and ActionBar)"));
-                     return true;
-                }
-                if (args.length == 1) {
-                    if (args[0].equalsIgnoreCase("reload")) {
-                        plugin.getCfg().reload();
-                    	player.sendMessage(plugin.getCfg().get("MESSAGE.RELOAD"));
-                        return true;
-                    }
-                }
-            } else {
-            	player.sendMessage(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED"));
-            	return true;
+            Player p = (Player)commandSender;
+            if (args.length < 1) {
+                sendHelp(p);
+                return true;
+            }
+            switch (args[0].toLowerCase()) {
+                case "reload":
+                    plugin.getCfg().reload();
+                    p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                    break;
+                default:
+                    sendHelp(p);
+                    break;
             }
         }
 		return true;
+    }
+
+    private void sendHelp(CommandSender s) {
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload all Message and booleans)"));
     }
 }

@@ -1,3 +1,5 @@
+addons:
+  PlaceholderAPI: true
 TITLES:
   NO-REGISTER:
     TITLE: "&aPlease Register"

@@ -81,11 +81,6 @@ public class TitleAuth  extends JavaPlugin {
     	} else {
     		Utils.FastLogin(false);
     	}
-        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            sendLogMessage("&fPlugin &ePlaceholderAPI &aHooked Successfully!");
-        } else {
-            sendLogMessage("&fPlugin &ePlaceholderAPI &cIs hooked not found!");
-        }
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
             Utils.CMILib(true);
             sendLogMessage("&fPlugin &aCMILib &aHooked Successfully!");

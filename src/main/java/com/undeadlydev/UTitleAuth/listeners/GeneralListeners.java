@@ -132,7 +132,7 @@ public class GeneralListeners implements Listener {
 
     private void SendWOnRegister(Player player) {
         String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Message");
-        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Enable")) {
+        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_REGISTER.Center-Message")) {
             for (String s : mesage.split("\\n")) {
                 player.sendMessage(CenterMessage.getCenteredMessage(s));
             }
@@ -143,7 +143,7 @@ public class GeneralListeners implements Listener {
 
 	private void SendWOnLogin(Player player) {
 		String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Message");
-		if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Enable")) {
+		if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.ON_LOGIN.Center-Message")) {
 			for (String s : mesage.split("\\n")) {
 				player.sendMessage(CenterMessage.getCenteredMessage(s));
 			}
@@ -154,7 +154,7 @@ public class GeneralListeners implements Listener {
 
     private void SendWPremium(Player player) {
         String mesage = plugin.getCfg().get(player, "MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Message");
-        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Enable")) {
+        if (plugin.getCfg().getBoolean("MESSAGE.WELCOME-MESSAGE.AUTO_LOGIN_PREMIUM.Center-Message")) {
             for (String s : mesage.split("\\n")) {
                 player.sendMessage(CenterMessage.getCenteredMessage(s));
             }
