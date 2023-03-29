@@ -56,6 +56,6 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
 
     private void sendHelp(CommandSender s) {
         s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
-        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload all Message and booleans)"));
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload all configs)"));
     }
 }

@@ -1,7 +1,9 @@
 package com.undeadlydev.UTitleAuth.listeners;
 
 import com.google.common.collect.Sets;
+import com.undeadlydev.UTitleAuth.superclass.SpigotUpdater;
 import com.undeadlydev.UTitleAuth.utils.CenterMessage;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -325,7 +327,7 @@ public class GeneralListeners implements Listener {
 			int time = plugin.getCfg().getInt("ACTIONBAR.ON_REGISTER.STAY");
 			@Override
 			public void run() {
-				if (SecurePlayerRegister.contains(player.getUniqueId())) {
+				if (AuthMeApi.getInstance().isRegistered(player.getName()) && AuthMeApi.getInstance().isAuthenticated(player.getPlayer()) || SecurePlayerRegister.contains(player.getUniqueId())) {
 					cancel();
 				}
 				if (time <= 0) {
@@ -355,5 +357,24 @@ public class GeneralListeners implements Listener {
 		}.runTaskTimer(this.plugin, 0L, 20L);
 	}
 
+	@EventHandler
+	public void PlayerJoinUpdateCheck(PlayerJoinEvent e) {
+		if (plugin.getCfg().getBoolean("update-check")) {
+			final Player p = e.getPlayer();
+			if (p.isOp() || p.hasPermission("utitleauth.updatecheck")) {
+				new BukkitRunnable() {
+					public void run() {
+						SpigotUpdater updater = new SpigotUpdater(plugin, 88058);
+						try {
+							if (updater.checkForUpdates()) {
+								p.sendMessage(ChatUtils.parseLegacy("&bAn update for &fUTitleAuth &e(&fUTitleAuth &fv" + updater.getLatestVersion() + "&e)"));
+								p.sendMessage(ChatUtils.parseLegacy("&bis available at &e" + updater.getResourceURL()));
+							}
+						} catch (Exception e) {}
+					}
+				}.runTaskAsynchronously(plugin);
+			}
+		}
+	}
 
 }

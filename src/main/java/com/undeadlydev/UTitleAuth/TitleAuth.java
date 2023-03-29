@@ -3,10 +3,11 @@ package com.undeadlydev.UTitleAuth;
 import com.undeadlydev.UTitleAuth.config.Settings;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
-import com.undeadlydev.UTitleAuth.superclass.UpdateChecker;
+import com.undeadlydev.UTitleAuth.superclass.SpigotUpdater;
 import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.Utils;
-import net.md_5.bungee.api.ChatColor;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -15,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.undeadlydev.UTitleAuth.cmds.utitleauthCMD;
 import com.undeadlydev.UTitleAuth.listeners.GeneralListeners;
-import com.undeadlydev.UTitleAuth.data.Metrics;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TitleAuth  extends JavaPlugin {
 
@@ -57,7 +58,7 @@ public class TitleAuth  extends JavaPlugin {
         adm.reload();
         LoadHooks();
         pm.registerEvents(new GeneralListeners(this), this);
-        EnableMetrics();
+        loadMetrics();
         sendLogMessage(" ");
         sendLogMessage("&7-----------------------------------");
         sendLogMessage(" ");
@@ -105,19 +106,28 @@ public class TitleAuth  extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(ChatUtils.parseLegacy("&7[&e&lUTitleAuth&7] &8| " + msg));
     }
 
-    private void EnableMetrics() {
+    public void loadMetrics() {
         int pluginId = 14756;
         Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new Metrics.SimplePie("chart_id", () -> "My value"));
+        metrics.addCustomChart(new SimplePie("chart_id", () -> "My value"));
     }
 
     private void CheckUpdate() {
-        new UpdateChecker(this, 88058).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) {
-                sendLogMessage("&aThere is not a new update available.");
-            } else {
-                sendLogMessage("&cThere is a new update available.");
-            }
-        });
+        if(getCfg().getBoolean("update-check")) {
+            new BukkitRunnable() {
+                public void run() {
+                    SpigotUpdater updater = new SpigotUpdater(instance, 88058);
+                    try {
+                        if (updater.checkForUpdates()) {
+                            sendLogMessage("An update for UTitleAuth (v" + updater.getLatestVersion() + ") is available at:");
+                            sendLogMessage(updater.getResourceURL());
+                        }
+                    } catch (Exception e) {
+                        sendLogMessage("Failed to check for a update on spigot.");
+                    }
+                }
+
+            }.runTask(this);
+        }
     }
 }
