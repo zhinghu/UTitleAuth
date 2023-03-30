@@ -2,7 +2,6 @@
 .idea/*
 target/*
 *.class
-*.yml
 *.properties
 *.jar
 *.lst
