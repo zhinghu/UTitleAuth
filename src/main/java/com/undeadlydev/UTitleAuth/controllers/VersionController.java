@@ -13,7 +13,7 @@ public class VersionController {
 
     public VersionController(TitleAuth plugin) {
         this.plugin = plugin;
-        if (VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_17_1)) {
+        if (VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16)) {
             this.reflection = new NMSReflectionNew();
         } else {
             this.reflection = new NMSReflectionOld();

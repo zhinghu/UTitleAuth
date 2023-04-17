@@ -10,11 +10,7 @@ public abstract class NMSReflection {
     private final static String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
     public static Class<?> getNMSClass(String name) {
-        try {
-            return getClass("net.minecraft.server." + version + "." + name);
-        } catch (Exception var3) {
-            return null;
-        }
+        return getClass("net.minecraft.server." + version + "." + name);
     }
 
     public static Class<?> getClass(String name) {

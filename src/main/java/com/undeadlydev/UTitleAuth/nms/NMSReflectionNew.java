@@ -19,9 +19,16 @@ public class NMSReflectionNew extends NMSReflection {
 
     public void sendPacket(Player player, Object packet) {
         try {
-            Object handle = player.getClass().getMethod("getHandle").invoke(player);
-            Object playerConnection = handle.getClass().getField("b").get(handle);
-            playerConnection.getClass().getMethod("a", getClass("net.minecraft.network.protocol.Packet")).invoke(playerConnection, packet );
+            if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_17)) {
+                Object handle = player.getClass().getMethod("getHandle").invoke(player);
+                Object playerConnection = handle.getClass().getField("b").get(handle);
+                playerConnection.getClass().getMethod("a", getClass("net.minecraft.network.protocol.Packet")).invoke(playerConnection, packet );
+            } else {
+                Object handle = player.getClass().getMethod("getHandle").invoke(player);
+                Object playerConnection = handle.getClass().getField("playerConnection").get(handle);
+                playerConnection.getClass().getMethod("sendPacket", getNMSClass("Packet") ).invoke(playerConnection, packet );
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +53,7 @@ public class NMSReflectionNew extends NMSReflection {
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Collection<Player> players) {
         for (Player p : players) {
             if (p == null || !p.isOnline()) continue;
-            if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_17)) {
+            if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16)) {
                 p.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
             }else {
                 send(title, subtitle, fadeIn , stay ,fadeOut, p);
