@@ -52,8 +52,7 @@ public class TitleAuth  extends JavaPlugin {
         instance = this;
         PluginManager pm = getServer().getPluginManager();
         sendLogMessage("&7-----------------------------------");
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        loadconfig();
         vc = new VersionController(this);
         lang = new Settings("lang", true, false);
         adm = new AddonManager();
@@ -73,7 +72,12 @@ public class TitleAuth  extends JavaPlugin {
         sendLogMessage("&7-----------------------------------");
         CheckUpdate();
     }
-    
+
+    private  void  loadconfig(){
+        saveDefaultConfig();
+        reloadConfig();
+    }
+
     public void LoadHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
             sendLogMessage("&fPlugin &aAuthMe &aHooked Successfully!");
