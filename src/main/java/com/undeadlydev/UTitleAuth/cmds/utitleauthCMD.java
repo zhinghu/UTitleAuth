@@ -13,7 +13,7 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
     public utitleauthCMD(TitleAuth plugin) {
         super(plugin, "utitleauth");
         setPermission("utitleauth.admin");
-        setPermissionMessage(plugin.getCfg().get("MESSAGE.NO_AUTHORIZED"));
+        setPermissionMessage(plugin.getLang().get("messages.noPermission"));
         addTabbComplete(0, "reload");
         registerCommand();
         this.plugin = plugin;
@@ -27,8 +27,9 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
             }
             switch (args[0].toLowerCase()) {
                 case "reload":
-                    plugin.getCfg().reload();
-                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                    plugin.reloadConfig();
+                    plugin.getLang().reload();
+                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("messages.reload")));
                     break;
                 default:
                     sendHelp(commandSender);
@@ -43,8 +44,9 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
             }
             switch (args[0].toLowerCase()) {
                 case "reload":
-                    plugin.getCfg().reload();
-                    p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getCfg().get("MESSAGE.RELOAD")));
+                    plugin.reloadConfig();
+                    plugin.getLang().reload();
+                    p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("messages.reload")));
                     break;
                 default:
                     sendHelp(p);

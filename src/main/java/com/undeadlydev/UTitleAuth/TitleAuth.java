@@ -24,7 +24,7 @@ public class TitleAuth  extends JavaPlugin {
 
     private AddonManager adm;
     private VersionController vc;
-    private Settings cfg;
+    private Settings lang;
 
     public static TitleAuth get() {
         return instance;
@@ -38,9 +38,10 @@ public class TitleAuth  extends JavaPlugin {
         return vc;
     }
 
-    public Settings getCfg() {
-        return cfg;
+    public Settings getLang() {
+        return lang;
     }
+
     public static FileConfiguration getOtherConfig() {
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
         FileConfiguration config = p.getConfig();
@@ -51,8 +52,10 @@ public class TitleAuth  extends JavaPlugin {
         instance = this;
         PluginManager pm = getServer().getPluginManager();
         sendLogMessage("&7-----------------------------------");
+        getConfig().options().copyDefaults(true);
+        saveConfig();
         vc = new VersionController(this);
-        cfg = new Settings("Config", true, false);
+        lang = new Settings("lang", true, false);
         adm = new AddonManager();
         new utitleauthCMD(this);
         adm.reload();
@@ -113,7 +116,7 @@ public class TitleAuth  extends JavaPlugin {
     }
 
     private void CheckUpdate() {
-        if(getCfg().getBoolean("update-check")) {
+        if(getConfig().getBoolean("update-check")) {
             new BukkitRunnable() {
                 public void run() {
                     SpigotUpdater updater = new SpigotUpdater(instance, 88058);

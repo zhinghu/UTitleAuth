@@ -1,86 +1,43 @@
 update-check: true
 addons:
-  PlaceholderAPI: true
-TITLES:
-  NO-REGISTER:
-    TITLE: "&aPlease Register"
-    SUBTITLE: "&eUse /register password password"
+  PlaceholderAPI: false
 
-  NO-LOGIN:
-    TITLE: "&aPlease Login"
-    SUBTITLE: "&eUse /login password"
-
-  ON-REGISTER:
-    TITLE: "&aREGISTER COMPLETE"
-    SUBTITLE: "&eRegister sucellyfull"
-    TIME:
-      FADEIN: 5
-      STAY: 30
-      FADEOUT: 5
-
-  ON-LOGIN:
-    TITLE: "&aLOGIN COMPLETE"
-    SUBTITLE: "&eLogin sucellyfull"
-    TIME:
-      FADEIN: 5
-      STAY: 30
-      FADEOUT: 5
-
-  AUTO-LOGIN-PREMIUM:
-    TITLE: "&aPREMIUM ACCOUNT"
-    SUBTITLE: "&eLogin automatically"
-    TIME:
-      FADEIN: 5
-      STAY: 30
-      FADEOUT: 5
-
-ACTIONBAR:
-  Enable: true
-  NO_REGISTER:
-    MESSAGE: "&CTimeleft: &e<time>"
-  NO_LOGIN:
-    MESSAGE: "&CTimeleft: &e<time>"
-
-  ON_REGISTER:
-    STAY: 5
-    MESSAGE: "&eREGISTER COMPLETE! WELCOME {player}"
-
-  ON_LOGIN:
-    STAY: 5
-    MESSAGE: "&aWELCOME BACK {player}"
-
-  AUTO_LOGIN_PREMIUM:
-    STAY: 5
-    MESSAGE: "&aWELCOME BACK {player}"
-
-MESSAGE:
-  RELOAD: "&cThe config was reloaded."
-  NO_AUTHORIZED: "&cYou are not authorized for this."
-  WELCOME-MESSAGE:
-    ON_REGISTER:
-      Enable: true
-      Center-Message: true
-      Message: |-
-        &7
-        &7&6&lWELCOME &c&l{player}
-        &7
-        &7&6&lYour registration was successful
-        &7
-    ON_LOGIN:
-      Enable: true
-      Center-Message: true
-      Message: |-
-        &7
-        &7&a&lThanks for playing &c&l{player}
-        &7
-        &7Your login was successful
-        &7
-    AUTO_LOGIN_PREMIUM:
-      Enable: true
-      Center-Message: true
-      Message: |-
-        &7
-        &7&a&lThanks for playing &c&l{player}
-        &7
-        &7&aYou have been auto-logged as a premium user
-        &7
+config:
+  titles:
+    register:
+      time: #This is a times of title in ticks.
+        fadein: 5
+        stay: 30
+        fadeout: 5
+    login:
+      time: #This is a times of title in ticks.
+        fadein: 5
+        stay: 30
+        fadeout: 5
+    autologin:
+      time: #This is a times of title in ticks.
+        fadein: 5
+        stay: 30
+        fadeout: 5
+  actionbar:
+    enabled: true
+    register:
+      time: #This is time of stay message in seconds.
+        stay: 5
+    login:
+      time: #This is time of stay message in seconds.
+        stay: 5
+    autologin:
+      time: #This is time of stay message in seconds.
+        stay: 5
+  message:
+    welcome:
+      register: #This message is customizable in lang.yml - "center" is so that the message is centered in the chat
+        enabled: true
+        center: true
+      login: #This message is customizable in lang.yml - "center" is so that the message is centered in the chat
+        enabled: true
+        center: true
+      autologin: #This message is customizable in lang.yml - "center" is so that the message is centered in the chat
+        enabled: true
+        center: true

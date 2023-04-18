@@ -1,0 +1,46 @@
+titles:
+  noregister:
+    title: "&aPlease Register"
+    subtitle: "&eUse /register password password"
+  nologin:
+    title: "&aPlease Login"
+    subtitle: "&eUse /login password"
+  register:
+    title: "&a&LREGISTER"
+    subtitle: "&eRegister successful"
+  login:
+    title: "&a&lLOGIN"
+    subtitle: "&eLogin successful"
+  autologin:
+    title: "&a&lPREMIUM ACCOUNT"
+    subtitle: "&eLogin automatically"
+
+message:
+  reload: "&cThe config was reloaded."
+  noPermission: "&cYou are not authorized for this."
+  welcome:
+    register: |-
+      &7
+      &7&6&lWELCOME &c&l{player}
+      &7
+      &7&6&lYour registration was successful
+      &7
+    login: |-
+      &7
+      &7&a&lThanks for playing &c&l{player}
+      &7
+      &7Your login was successful
+      &7
+    autologin: |-
+      &7
+      &7&a&lAccount Premium &c&l{player}
+      &7
+      &7&aYou have been auto-logged as a premium user
+      &7
+
+actionbar:
+  noregister: "&cPlease register to join. Register time: &6<time>&cs."
+  nologin: "&cVerify your account. Login time: &6<time>&cs."
+  register: "&a&lRegistration completed have fun."
+  login: "&a&lLogin successful."
+  autologin: "&dAutologin as a premium user."
