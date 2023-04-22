@@ -29,7 +29,7 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
                 case "reload":
                     plugin.reloadConfig();
                     plugin.getLang().reload();
-                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("messages.reload")));
+                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("message.reload")));
                     break;
                 default:
                     sendHelp(commandSender);
@@ -44,12 +44,25 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
             }
             switch (args[0].toLowerCase()) {
                 case "reload":
-                    plugin.reloadConfig();
-                    plugin.getLang().reload();
-                    p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("messages.reload")));
-                    break;
-                default:
-                    sendHelp(p);
+                    if (args.length == 1) {
+                        plugin.reloadConfig();
+                        plugin.getLang().reload();
+                        p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
+                        return true;
+                    }
+                    switch (args[1].toLowerCase()) {
+                        case "lang":
+                            plugin.getLang().reload();
+                            p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reloadLang")));
+                            break;
+                        case "config":
+                            plugin.reloadConfig();
+                            p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
+                            break;
+                        default:
+                            sendHelp(p);
+                            break;
+                    }
                     break;
             }
         }
@@ -59,5 +72,8 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
     private void sendHelp(CommandSender s) {
         s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&c&lAdmin Commands."));
         s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload &7(Reload all configs)"));
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + " "));
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload config &7(Reload only config file)"));
+        s.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + "&e/utitleauth reload lang &7(Reload only lang file)"));
     }
 }

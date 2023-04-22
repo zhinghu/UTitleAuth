@@ -17,6 +17,7 @@ titles:
 
 message:
   reload: "&cThe config was reloaded."
+  reloadLang: "&cLang was reloaded."
   noPermission: "&cYou are not authorized for this."
   welcome:
     register: |-

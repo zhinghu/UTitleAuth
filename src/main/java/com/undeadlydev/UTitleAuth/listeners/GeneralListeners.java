@@ -47,19 +47,22 @@ public class GeneralListeners implements Listener {
 	public void AuthLoginEvent(PlayerJoinEvent event) {
 		Player p = event.getPlayer();
 		String pl = p.getName();
-		if (AuthMeApi.getInstance().isRegistered(pl)) {
-			SendTitleNoLogin(p);
-			SecurePlayerLogin.add(p.getUniqueId());
-			if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-				SendAcNoLogin(p);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			public void run() {
+				if (!AuthMeApi.getInstance().isRegistered(pl)) {
+					SendTitleNoRegister(p);
+					SecurePlayerRegister.add(p.getUniqueId());
+					if (plugin.getConfig().getBoolean("config.actionbar.enabled"))
+						SendAcNoRegister(p);
+				} else if(!AuthMeApi.getInstance().isAuthenticated(p)) {
+					SendTitleNoLogin(p);
+					SecurePlayerLogin.add(p.getUniqueId());
+					if (plugin.getConfig().getBoolean("config.actionbar.enabled"))
+						SendAcNoLogin(p);
+				}
 			}
-			return;
-		}
-		SendTitleNoRegister(p);
-		SecurePlayerRegister.add(p.getUniqueId());
-		if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-			SendAcNoRegister(p);
-		}
+		},  20L);
+
 	}
 
 	private void SendNoLogin(Player p) {
@@ -140,23 +143,25 @@ public class GeneralListeners implements Listener {
     public void OnLoginPlayer(LoginEvent event) {
 		Player p = event.getPlayer();
 		SecurePlayerLogin.remove(p.getUniqueId());
-		if (Utils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
-			SendTitlePremium(p);
-			if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-				cancelac.remove(p.getName());
-				SendAcOnPremium(p);
-			}
-            if (plugin.getConfig().getBoolean("config.message.welcome.autologin.enabled")) {
-                SendWPremium(p);
-            }
-		} else {
-			SendTitleOnLogin(p);
-			if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-				cancelac.remove(p.getName());
-				SendAcOnLogin(p);
-			}
-			if (plugin.getConfig().getBoolean("config.message.welcome.login.enabled")) {
-				SendWOnLogin(p);
+		if (AuthMeApi.getInstance().isAuthenticated(p)) {
+			if (Utils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
+				SendTitlePremium(p);
+				if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
+					cancelac.remove(p.getName());
+					SendAcOnPremium(p);
+				}
+				if (plugin.getConfig().getBoolean("config.message.welcome.autologin.enabled")) {
+					SendWPremium(p);
+				}
+			} else {
+				SendTitleOnLogin(p);
+				if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
+					cancelac.remove(p.getName());
+					SendAcOnLogin(p);
+				}
+				if (plugin.getConfig().getBoolean("config.message.welcome.login.enabled")) {
+					SendWOnLogin(p);
+				}
 			}
 		}
 	}

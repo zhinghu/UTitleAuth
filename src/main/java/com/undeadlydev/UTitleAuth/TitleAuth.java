@@ -54,7 +54,7 @@ public class TitleAuth  extends JavaPlugin {
         sendLogMessage("&7-----------------------------------");
         loadconfig();
         vc = new VersionController(this);
-        lang = new Settings("lang", true, false);
+        lang = new Settings("lang", true, true);
         adm = new AddonManager();
         new utitleauthCMD(this);
         adm.reload();
