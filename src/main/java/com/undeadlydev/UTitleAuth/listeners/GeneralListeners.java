@@ -62,7 +62,6 @@ public class GeneralListeners implements Listener {
 				}
 			}
 		},  20L);
-
 	}
 
 	private void SendNoLogin(Player p) {

@@ -13,7 +13,7 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
     public utitleauthCMD(TitleAuth plugin) {
         super(plugin, "utitleauth");
         setPermission("utitleauth.admin");
-        setPermissionMessage(plugin.getLang().get("messages.noPermission"));
+        setPermissionMessage(plugin.getLang().get("message.noPermission"));
         addTabbComplete(0, "reload");
         registerCommand();
         this.plugin = plugin;
