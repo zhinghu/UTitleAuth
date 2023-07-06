@@ -6,7 +6,7 @@
 
     <groupId>com.undeadlydev</groupId>
     <artifactId>UTitleAuth</artifactId>
-    <version>7.9.0</version>
+    <version>7.9.1</version>
 
     <properties>
         <project.java.version>1.8</project.java.version>
@@ -89,7 +89,7 @@
             <artifactId>API</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/extras/CMILib1.2.5.0.jar</systemPath>
+            <systemPath>${project.basedir}/libs/extras/CMILib.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>FastLogin</groupId>
