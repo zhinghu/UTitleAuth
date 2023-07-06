@@ -61,9 +61,7 @@ public enum  VersionUtils {
     v1_19_4(11904),
     v1_19_x(11910),
     v1_20(12000),
-
     v1_20_1(12001),
-
     v1_20_x(12010),
     vUnsupported(1000000);
 
