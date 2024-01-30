@@ -1,8 +1,7 @@
 package com.undeadlydev.UTitleAuth.config;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utils.ChatUtils;
-import org.bukkit.ChatColor;
+import com.undeadlydev.UTitleAuth.utils.HexUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -86,7 +85,7 @@ public class Settings {
         if (config.getString(s) == null) {
             return "";
         }
-        return ChatUtils.colorCodes(this.config.getString(s));
+        return HexUtils.colorify(this.config.getString(s));
     }
 
     public String get(Player p, String s) {
@@ -97,7 +96,7 @@ public class Settings {
         if (p != null) {
         	string = TitleAuth.get().getAdm().parsePlaceholders(p, string);
         }
-        string = ChatUtils.replace(string, p);
+        string = HexUtils.colorify(string);
         return string;
     }
     

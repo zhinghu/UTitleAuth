@@ -1,10 +1,14 @@
 package com.undeadlydev.UTitleAuth;
 
+import com.google.common.collect.Sets;
 import com.undeadlydev.UTitleAuth.config.Settings;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
+import com.undeadlydev.UTitleAuth.listeners.*;
+import com.undeadlydev.UTitleAuth.managers.ActionBarManager;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
+import com.undeadlydev.UTitleAuth.managers.TitlesManager;
 import com.undeadlydev.UTitleAuth.superclass.SpigotUpdater;
-import com.undeadlydev.UTitleAuth.utils.ChatUtils;
+import com.undeadlydev.UTitleAuth.utils.HexUtils;
 import com.undeadlydev.UTitleAuth.utils.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -15,16 +19,24 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.undeadlydev.UTitleAuth.cmds.utitleauthCMD;
-import com.undeadlydev.UTitleAuth.listeners.GeneralListeners;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.*;
 
 public class TitleAuth  extends JavaPlugin {
 
 	private static TitleAuth instance;
 
     private AddonManager adm;
+    private TitlesManager tm;
+    private ActionBarManager ac;
     private VersionController vc;
     private Settings lang;
+
+    private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
+    private Set<UUID> SecurePlayerLogin = Sets.newHashSet();
+    public Map<String, BukkitTask> cancelac = new HashMap<>();
 
     public static TitleAuth get() {
         return instance;
@@ -42,6 +54,30 @@ public class TitleAuth  extends JavaPlugin {
         return lang;
     }
 
+    public Set<UUID> getRegisterSecure() {
+        return SecurePlayerRegister;
+    }
+
+    public void addRegisterSecure(UUID uuid){
+        this.SecurePlayerRegister = Collections.singleton(uuid);
+    }
+
+    public Set<UUID> getLoginSecure() {
+        return SecurePlayerLogin;
+    }
+
+    public void addLoginSecure(UUID uuid){
+        this.SecurePlayerLogin = Collections.singleton(uuid);
+    }
+
+    public TitlesManager getTm() {
+        return tm;
+    }
+
+    public ActionBarManager getAc() {
+        return ac;
+    }
+
     public static FileConfiguration getOtherConfig() {
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
         FileConfiguration config = p.getConfig();
@@ -56,10 +92,18 @@ public class TitleAuth  extends JavaPlugin {
         vc = new VersionController(this);
         lang = new Settings("lang", true, true);
         adm = new AddonManager();
+        tm = new TitlesManager();
+        ac = new ActionBarManager();
         new utitleauthCMD(this);
         adm.reload();
         LoadHooks();
         pm.registerEvents(new GeneralListeners(this), this);
+        pm.registerEvents(new LoginListener(this), this);
+        pm.registerEvents(new LogoutListener(this), this);
+        pm.registerEvents(new PlayerJoinEvent(this), this);
+        pm.registerEvents(new RegisterListener(this), this);
+        pm.registerEvents(new UnregisterbyAdminListener(this), this);
+        pm.registerEvents(new UnregisterListener(this), this);
         loadMetrics();
         sendLogMessage(" ");
         sendLogMessage("&7-----------------------------------");
@@ -73,7 +117,7 @@ public class TitleAuth  extends JavaPlugin {
         CheckUpdate();
     }
 
-    private  void  loadconfig(){
+    private void loadconfig(){
         saveDefaultConfig();
         reloadConfig();
     }
@@ -110,7 +154,7 @@ public class TitleAuth  extends JavaPlugin {
     }
 
     public void sendLogMessage(String msg) {
-        Bukkit.getConsoleSender().sendMessage(ChatUtils.parseLegacy("&7[&e&lUTitleAuth&7] &8| " + msg));
+        Bukkit.getConsoleSender().sendMessage(HexUtils.colorify("&7[&e&lUTitleAuth&7] &8| " + msg));
     }
 
     public void loadMetrics() {
