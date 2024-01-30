@@ -96,7 +96,7 @@ public class Settings {
         if (p != null) {
         	string = TitleAuth.get().getAdm().parsePlaceholders(p, string);
         }
-        string = HexUtils.colorify(string);
+        string = HexUtils.colorify(string).replace("{player}", p.getName());
         return string;
     }
     

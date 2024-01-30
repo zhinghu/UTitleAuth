@@ -1,10 +1,8 @@
 package com.undeadlydev.UTitleAuth.nms;
 
 import com.undeadlydev.UTitleAuth.superclass.NMSReflection;
-import com.undeadlydev.UTitleAuth.utils.VersionUtils;
+import com.undeadlydev.UTitleAuth.enums.Versions;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
@@ -19,7 +17,7 @@ public class NMSReflectionNew extends NMSReflection {
 
     public void sendPacket(Player player, Object packet) {
         try {
-            if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_17)) {
+            if(Versions.getVersion().esMayorIgual(Versions.v1_17)) {
                 Object handle = player.getClass().getMethod("getHandle").invoke(player);
                 Object playerConnection = handle.getClass().getField("b").get(handle);
                 playerConnection.getClass().getMethod("a", getClass("net.minecraft.network.protocol.Packet")).invoke(playerConnection, packet );
@@ -53,7 +51,7 @@ public class NMSReflectionNew extends NMSReflection {
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Collection<Player> players) {
         for (Player p : players) {
             if (p == null || !p.isOnline()) continue;
-            if(VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16)) {
+            if(Versions.getVersion().esMayorIgual(Versions.v1_16)) {
                 p.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
             }else {
                 send(title, subtitle, fadeIn , stay ,fadeOut, p);

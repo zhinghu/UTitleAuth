@@ -1,8 +1,8 @@
-package com.undeadlydev.UTitleAuth.utils;
+package com.undeadlydev.UTitleAuth.enums;
 
 import org.bukkit.Bukkit;
 
-public enum  VersionUtils {
+public enum Versions {
     v1_5(10500),
     v1_6(10600),
     v1_7(10700),
@@ -63,7 +63,6 @@ public enum  VersionUtils {
     v1_20(12000),
     v1_20_1(12001),
     v1_20_2(12002),
-    v1_20_3(12003),
     v1_20_4(12004),
     v1_20_x(12010),
     vUnsupported(1000000);
@@ -72,7 +71,7 @@ public enum  VersionUtils {
     private boolean contains;
     private boolean equals;
 
-    private VersionUtils(int n) {
+    private Versions(int n) {
         this.value = n;
         this.contains = Bukkit.getBukkitVersion().split("-")[0].contains(this.toString());
         this.equals = Bukkit.getBukkitVersion().split("-")[0].equalsIgnoreCase(this.toString());
@@ -94,25 +93,25 @@ public enum  VersionUtils {
         return this.name().replaceAll("_", ".").split("v")[1];
     }
 
-    public boolean esMayorr(VersionUtils v) {
+    public boolean esMayorr(Versions v) {
         return (this.getValue() > v.getValue());
     }
 
-    public boolean esMayorIgual(VersionUtils v) {
+    public boolean esMayorIgual(Versions v) {
         return (this.getValue() >= v.getValue());
     }
 
-    public boolean esMenor(VersionUtils v) {
+    public boolean esMenor(Versions v) {
         return (this.getValue() < v.getValue());
     }
 
-    public boolean esMenorIgual(VersionUtils v) {
+    public boolean esMenorIgual(Versions v) {
         return (this.getValue() <= v.getValue());
     }
 
-    public static VersionUtils getVersion() {
-        VersionUtils retorno = VersionUtils.vUnsupported;
-        for(VersionUtils version : VersionUtils.values()) {
+    public static Versions getVersion() {
+        Versions retorno = Versions.vUnsupported;
+        for(Versions version : Versions.values()) {
             if(version.IsEquals()) {
                 retorno =  version;
                 break;

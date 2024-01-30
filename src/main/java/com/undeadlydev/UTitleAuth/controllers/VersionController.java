@@ -4,7 +4,7 @@ import com.undeadlydev.UTitleAuth.TitleAuth;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionNew;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionOld;
 import com.undeadlydev.UTitleAuth.superclass.NMSReflection;
-import com.undeadlydev.UTitleAuth.utils.VersionUtils;
+import com.undeadlydev.UTitleAuth.enums.Versions;
 
 public class VersionController {
 
@@ -13,7 +13,7 @@ public class VersionController {
 
     public VersionController(TitleAuth plugin) {
         this.plugin = plugin;
-        if (VersionUtils.getVersion().esMayorIgual(VersionUtils.v1_16)) {
+        if (Versions.getVersion().esMayorIgual(Versions.v1_16)) {
             this.reflection = new NMSReflectionNew();
         } else {
             this.reflection = new NMSReflectionOld();
