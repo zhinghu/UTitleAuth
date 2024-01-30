@@ -14,6 +14,7 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,7 +37,7 @@ public class TitleAuth  extends JavaPlugin {
 
     private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
     private Set<UUID> SecurePlayerLogin = Sets.newHashSet();
-    public Map<String, BukkitTask> cancelac = new HashMap<>();
+    private Map<String, BukkitTask> cancelac = new HashMap<>();
 
     public static TitleAuth get() {
         return instance;
@@ -58,16 +59,16 @@ public class TitleAuth  extends JavaPlugin {
         return SecurePlayerRegister;
     }
 
-    public void addRegisterSecure(UUID uuid){
-        this.SecurePlayerRegister = Collections.singleton(uuid);
+    public void addRegisterSecure(Player uuid){
+        this.SecurePlayerRegister.add(uuid.getUniqueId());
     }
 
     public Set<UUID> getLoginSecure() {
         return SecurePlayerLogin;
     }
 
-    public void addLoginSecure(UUID uuid){
-        this.SecurePlayerLogin = Collections.singleton(uuid);
+    public void addLoginSecure(Player uuid){
+        this.SecurePlayerLogin.add(uuid.getUniqueId());
     }
 
     public TitlesManager getTm() {
@@ -78,6 +79,9 @@ public class TitleAuth  extends JavaPlugin {
         return ac;
     }
 
+    public Map<String, BukkitTask> cancelAc() {
+        return cancelac;
+    }
     public static FileConfiguration getOtherConfig() {
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
         FileConfiguration config = p.getConfig();

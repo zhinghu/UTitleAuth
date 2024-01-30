@@ -27,12 +27,12 @@ public class PlayerJoinEvent implements Listener {
             public void run() {
                 if (!AuthMeApi.getInstance().isRegistered(pl)) {
                     plugin.getTm().SendTitleNoRegister(p);
-                    plugin.addRegisterSecure(p.getUniqueId());
+                    plugin.addRegisterSecure(p);
                     if (plugin.getConfig().getBoolean("config.actionbar.enabled"))
                         plugin.getAc().SendAcNoRegister(p);
                 } else if(!AuthMeApi.getInstance().isAuthenticated(p)) {
                     plugin.getTm().SendTitleNoLogin(p);
-                    plugin.addLoginSecure(p.getUniqueId());
+                    plugin.addLoginSecure(p);
                     if (plugin.getConfig().getBoolean("config.actionbar.enabled"))
                         plugin.getAc().SendAcNoLogin(p);
                 }

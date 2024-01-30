@@ -28,7 +28,7 @@ public class LoginListener implements Listener {
             if (Utils.FastLogin && JavaPlugin.getPlugin(FastLoginBukkit.class).getStatus(p.getUniqueId()) == PremiumStatus.PREMIUM) {
                 plugin.getTm().SendTitlePremium(p);
                 if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-                    plugin.cancelac.remove(p.getName());
+                    plugin.cancelAc().remove(p.getName());
                     plugin.getAc().SendAcOnPremium(p);
                 }
                 if (plugin.getConfig().getBoolean("config.message.welcome.autologin.enabled")) {
@@ -37,7 +37,7 @@ public class LoginListener implements Listener {
             } else {
                 plugin.getTm().SendTitleOnLogin(p);
                 if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-                    plugin.cancelac.remove(p.getName());
+                    plugin.cancelAc().remove(p.getName());
                     plugin.getAc().SendAcOnLogin(p);
                 }
                 if (plugin.getConfig().getBoolean("config.message.welcome.login.enabled")) {

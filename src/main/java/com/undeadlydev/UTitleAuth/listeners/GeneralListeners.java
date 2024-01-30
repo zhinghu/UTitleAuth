@@ -38,8 +38,8 @@ public class GeneralListeners implements Listener {
 		if (plugin.getLoginSecure().contains(p.getUniqueId())) {
 			plugin.getLoginSecure().remove(p.getUniqueId());
 		}
-		if (plugin.cancelac.containsKey(p.getName())){
-			plugin.cancelac.remove(p.getName());
+		if (plugin.cancelAc().containsKey(p.getName())){
+			plugin.cancelAc().remove(p.getName());
 		}
 	}
 }

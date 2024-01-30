@@ -22,7 +22,7 @@ public class UnregisterbyAdminListener implements Listener {
             return;
         Player p = event.getPlayer();
         plugin.getTm().SendTitleNoRegister(p);
-        plugin.addRegisterSecure(p.getUniqueId());
+        plugin.addRegisterSecure(p);
         if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
             plugin.getAc().SendAcNoRegister(p);
         }

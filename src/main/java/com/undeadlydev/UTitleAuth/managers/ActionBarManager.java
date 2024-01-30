@@ -14,7 +14,7 @@ public class ActionBarManager {
         BukkitTask bukkitTask = (new BukkitRunnable() {
             int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
             public void run() {
-                if (!plugin.cancelac.containsKey(player.getName())) {
+                if (!plugin.cancelAc().containsKey(player.getName())) {
                     cancel();
                     return;
                 }
@@ -26,7 +26,7 @@ public class ActionBarManager {
                 time--;
             }
         }).runTaskTimer(plugin, 0L, 20L);
-        plugin.cancelac.put(player.getName(), bukkitTask);
+        plugin.cancelAc().put(player.getName(), bukkitTask);
     }
 
     public void SendAcNoLogin(Player player) {
@@ -34,7 +34,7 @@ public class ActionBarManager {
             int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
             @Override
             public void run() {
-                if (!plugin.cancelac.containsKey(player.getName())) {
+                if (!plugin.cancelAc().containsKey(player.getName())) {
                     cancel();
                     return;
                 }
@@ -47,7 +47,7 @@ public class ActionBarManager {
             }
 
         }).runTaskTimer(this.plugin, 0L, 20L);
-        plugin.cancelac.put(player.getName(), bukkitTask);
+        plugin.cancelAc().put(player.getName(), bukkitTask);
     }
 
     public void SendAcOnPremium(Player player) {

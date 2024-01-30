@@ -25,7 +25,7 @@ public class RegisterListener implements Listener {
         }
         plugin.getTm().SendTitleOnRegister(p);
         if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-            plugin.cancelac.remove(p.getName());
+            plugin.cancelAc().remove(p.getName());
             plugin.getAc().SendAcOnRegister(p);
         }
         if (plugin.getConfig().getBoolean("config.message.welcome.register.enabled")) {
@@ -35,7 +35,7 @@ public class RegisterListener implements Listener {
 
     private void SendNoLogin(Player p) {
         plugin.getTm().SendTitleNoLogin(p);
-        plugin.addLoginSecure(p.getUniqueId());
+        plugin.addLoginSecure(p);
         if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
             plugin.getAc().SendAcNoLogin(p);
         }
