@@ -1,11 +1,11 @@
 package com.undeadlydev.UTitleAuth.controllers;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
+import com.undeadlydev.UTitleAuth.enums.Versions;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionNew;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionNewes;
 import com.undeadlydev.UTitleAuth.nms.NMSReflectionOld;
 import com.undeadlydev.UTitleAuth.superclass.NMSReflection;
-import com.undeadlydev.UTitleAuth.enums.Versions;
 
 public class VersionController {
 
