@@ -1,7 +1,7 @@
-package com.undeadlydev.UTitleAuth.config;
+package com.undeadlydev.UTitleAuth.managers;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utils.HexUtils;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,17 +13,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
-public class Settings {
+public class FileManager {
 
     private final YamlConfiguration config;
     private final File file;
-    public Settings(String s, boolean defaults) {
-        this(s, defaults, false);
-    }
 
-    public Settings(String s, boolean defaults, boolean hexColor) {
+    public FileManager(String s, boolean defaults) {
         TitleAuth plugin = TitleAuth.get();
         this.file = new File(plugin.getDataFolder(), s + ".yml");
         this.config = YamlConfiguration.loadConfiguration(this.file);
@@ -85,7 +81,7 @@ public class Settings {
         if (config.getString(s) == null) {
             return "";
         }
-        return HexUtils.colorify(this.config.getString(s));
+        return ChatUtils.colorCodes(this.config.getString(s));
     }
 
     public String get(Player p, String s) {
@@ -94,12 +90,12 @@ public class Settings {
         }
         String string = this.config.getString(s);
         if (p != null) {
-        	string = TitleAuth.get().getAdm().parsePlaceholders(p, string);
+            string = TitleAuth.get().getAdm().parsePlaceholders(p, string.replace("{player}", p.getName()));
         }
-        string = HexUtils.colorify(string.replace("{player}", p.getName()));
+        string = ChatUtils.colorCodes(string);
         return string;
     }
-    
+
     public String getOrDefault(String s, String def) {
         if (config.isSet(s)) {
             return get(null, s);
@@ -126,32 +122,6 @@ public class Settings {
         return this.config.getDouble(s);
     }
 
-    public double getDoubleOrDefault(String s, double def) {
-        if (config.isSet(s)) {
-            return getDouble(s);
-        }
-        set(s, def);
-        save();
-        return def;
-    }
-
-    public List<String> getList(String s) {
-        return this.config.getStringList(s);
-    }
-
-    public List<String> getListOrDefault(String s, List<String> def) {
-        if (config.isSet(s)) {
-            return getList(s);
-        }
-        set(s, def);
-        save();
-        return def;
-    }
-
-    public boolean isSet(String s) {
-        return this.config.isSet(s);
-    }
-
     public void set(String s, Object o) {
         this.config.set(s, o);
     }
@@ -159,14 +129,5 @@ public class Settings {
     public boolean getBoolean(String s) {
         return this.config.getBoolean(s);
     }
-
-    public boolean getBooleanOrDefault(String s, boolean def) {
-        if (config.isSet(s)) {
-            return getBoolean(s);
-        }
-        set(s, def);
-        save();
-        return def;
-    }
-
 }
+

@@ -1,4 +1,4 @@
-package com.undeadlydev.UTitleAuth.utils;
+package com.undeadlydev.UTitleAuth.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class CommandUtils<T extends JavaPlugin> extends Command implements CommandExecutor, PluginIdentifiableCommand {
+public abstract class CommandManager<T extends JavaPlugin> extends Command implements CommandExecutor, PluginIdentifiableCommand {
 
     private static CommandMap commandMap;
 
@@ -30,7 +30,7 @@ public abstract class CommandUtils<T extends JavaPlugin> extends Command impleme
     private final HashMap<Integer, ArrayList<TabCommand>> tabComplete;
     private boolean register = false;
 
-    protected CommandUtils(T plugin, String name) {
+    protected CommandManager(T plugin, String name) {
         super(name);
 
         assert commandMap != null;

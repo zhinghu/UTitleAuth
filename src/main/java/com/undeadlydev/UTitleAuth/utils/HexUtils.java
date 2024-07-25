@@ -45,6 +45,16 @@ public final class HexUtils {
         }
     }
 
+    public static String stripColors(String message) {
+        for (Pattern pattern : HEX_PATTERNS) {
+            message = pattern.matcher(message).replaceAll("");
+        }
+        message = STOP.matcher(message).replaceAll("");
+        message = ChatColor.stripColor(message);
+
+        return message;
+    }
+
     public static void sendMessage(CommandSender sender, String message) {
         sender.sendMessage(colorify(message));
     }

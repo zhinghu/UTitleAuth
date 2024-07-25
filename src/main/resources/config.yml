@@ -1,6 +1,8 @@
 update-check: true
 addons:
   PlaceholderAPI: false
+  CMILib: false
+  FastLogin: false
 
 config:
   titles:

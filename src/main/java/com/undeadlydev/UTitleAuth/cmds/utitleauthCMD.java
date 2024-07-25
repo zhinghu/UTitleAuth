@@ -1,6 +1,7 @@
 package com.undeadlydev.UTitleAuth.cmds;
 
-import com.undeadlydev.UTitleAuth.utils.CommandUtils;
+import com.undeadlydev.UTitleAuth.managers.CommandManager;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.HexUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
 
-public class utitleauthCMD extends CommandUtils<TitleAuth> {
+public class utitleauthCMD extends CommandManager<TitleAuth> {
 	public TitleAuth plugin;
     public utitleauthCMD(TitleAuth plugin) {
         super(plugin, "utitleauth");
@@ -29,7 +30,7 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
                 case "reload":
                     plugin.reloadConfig();
                     plugin.getLang().reload();
-                    commandSender.sendMessage(HexUtils.colorify("&e[UTitleAuth] " + plugin.getLang().get("message.reload")));
+                    commandSender.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get("message.reload")));
                     break;
                 default:
                     sendHelp(commandSender);
@@ -47,17 +48,19 @@ public class utitleauthCMD extends CommandUtils<TitleAuth> {
                     if (args.length == 1) {
                         plugin.reloadConfig();
                         plugin.getLang().reload();
-                        p.sendMessage(HexUtils.colorify("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
+                        plugin.getAdm().reload();
+                        p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
                         return true;
                     }
                     switch (args[1].toLowerCase()) {
                         case "lang":
                             plugin.getLang().reload();
-                            p.sendMessage(HexUtils.colorify("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reloadLang")));
+                            p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reloadLang")));
                             break;
                         case "config":
                             plugin.reloadConfig();
-                            p.sendMessage(HexUtils.colorify("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
+                            plugin.getAdm().reload();
+                            p.sendMessage(ChatUtils.colorCodes("&e[UTitleAuth] " + plugin.getLang().get(p, "message.reload")));
                             break;
                         default:
                             sendHelp(p);

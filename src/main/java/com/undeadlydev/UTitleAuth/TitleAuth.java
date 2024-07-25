@@ -1,15 +1,15 @@
 package com.undeadlydev.UTitleAuth;
 
 import com.google.common.collect.Sets;
-import com.undeadlydev.UTitleAuth.config.Settings;
+import com.undeadlydev.UTitleAuth.managers.FileManager;
 import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.listeners.*;
 import com.undeadlydev.UTitleAuth.managers.ActionBarManager;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
 import com.undeadlydev.UTitleAuth.managers.TitlesManager;
 import com.undeadlydev.UTitleAuth.superclass.SpigotUpdater;
+import com.undeadlydev.UTitleAuth.utils.ChatUtils;
 import com.undeadlydev.UTitleAuth.utils.HexUtils;
-import com.undeadlydev.UTitleAuth.utils.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -33,7 +33,7 @@ public class TitleAuth  extends JavaPlugin {
     private TitlesManager tm;
     private ActionBarManager ac;
     private VersionController vc;
-    private Settings lang;
+    private FileManager lang;
 
     private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
     private Set<UUID> SecurePlayerLogin = Sets.newHashSet();
@@ -51,7 +51,7 @@ public class TitleAuth  extends JavaPlugin {
         return vc;
     }
 
-    public Settings getLang() {
+    public FileManager getLang() {
         return lang;
     }
 
@@ -82,6 +82,7 @@ public class TitleAuth  extends JavaPlugin {
     public Map<String, BukkitTask> cancelAc() {
         return cancelac;
     }
+
     public static FileConfiguration getOtherConfig() {
         Plugin p = Bukkit.getServer().getPluginManager().getPlugin("AuthMe");
         FileConfiguration config = p.getConfig();
@@ -92,15 +93,16 @@ public class TitleAuth  extends JavaPlugin {
         instance = this;
         PluginManager pm = getServer().getPluginManager();
         sendLogMessage("&7-----------------------------------");
-        loadconfig();
+        getConfig().options().copyDefaults(true);
+        saveConfig();
         vc = new VersionController(this);
-        lang = new Settings("lang", true, true);
+        lang = new FileManager("lang", true);
         adm = new AddonManager();
         tm = new TitlesManager();
         ac = new ActionBarManager();
         new utitleauthCMD(this);
         adm.reload();
-        LoadHooks();
+        loadHooks();
         pm.registerEvents(new GeneralListeners(this), this);
         pm.registerEvents(new LoginListener(this), this);
         pm.registerEvents(new LogoutListener(this), this);
@@ -121,30 +123,13 @@ public class TitleAuth  extends JavaPlugin {
         CheckUpdate();
     }
 
-    private void loadconfig(){
-        saveDefaultConfig();
-        reloadConfig();
-    }
-
-    public void LoadHooks() {
+    public void loadHooks() {
         if (Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
             sendLogMessage("&fPlugin &aAuthMe &aHooked Successfully!");
     	} else {
             sendLogMessage("&fPlugin &cAuthMe &cHooked not found!");
 	    	Bukkit.getPluginManager().disablePlugin(this);
     	}
-        if (Bukkit.getPluginManager().isPluginEnabled("FastLogin")) {
-        	Utils.FastLogin(true);
-            sendLogMessage("&fPlugin &aFastLogin &bAutoLogin Premium &aHooked Successfully!");
-    	} else {
-    		Utils.FastLogin(false);
-    	}
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-            Utils.CMILib(true);
-            sendLogMessage("&fPlugin &aCMILib &aHooked Successfully!");
-        } else {
-            Utils.CMILib(false);
-        }
     }
     
     public void onDisable() {
@@ -158,7 +143,7 @@ public class TitleAuth  extends JavaPlugin {
     }
 
     public void sendLogMessage(String msg) {
-        Bukkit.getConsoleSender().sendMessage(HexUtils.colorify("&7[&e&lUTitleAuth&7] &8| " + msg));
+        Bukkit.getConsoleSender().sendMessage(ChatUtils.parseLegacy("&7[&e&lUTitleAuth&7] &8| " + msg));
     }
 
     public void loadMetrics() {

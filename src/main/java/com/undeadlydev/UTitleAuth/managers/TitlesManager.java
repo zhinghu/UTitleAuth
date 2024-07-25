@@ -1,7 +1,6 @@
 package com.undeadlydev.UTitleAuth.managers;
 
 import com.undeadlydev.UTitleAuth.TitleAuth;
-import com.undeadlydev.UTitleAuth.utils.Utils;
 import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
 import org.bukkit.entity.Player;
 
@@ -16,7 +15,7 @@ public class TitlesManager {
         int fadeIn = plugin.getConfig().getInt("config.titles.autologin.time.fadein");
         int stay = plugin.getConfig().getInt("config.titles.autologin.time.stay");
         int fadeOut = plugin.getConfig().getInt("config.titles.autologin.time.fadeout");
-        if (Utils.CMILib) {
+        if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
             plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
@@ -27,7 +26,7 @@ public class TitlesManager {
     public void SendTitleNoRegister(Player player) {
         String Title = plugin.getLang().get(player, "titles.noregister.title");
         String subTitle = plugin.getLang().get(player, "titles.noregister.subtitle");
-        if (Utils.CMILib) {
+        if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
         } else {
             int fadeIn = (0);
@@ -40,7 +39,7 @@ public class TitlesManager {
     public void SendTitleNoLogin(Player player) {
         String Title = plugin.getLang().get(player, "titles.nologin.title");
         String subTitle = plugin.getLang().get(player, "titles.nologin.subtitle");
-        if (Utils.CMILib) {
+        if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, 0, 999999999, 20);
         } else {
             int fadeIn = (0);
@@ -57,7 +56,7 @@ public class TitlesManager {
         int fadeIn = plugin.getConfig().getInt("config.titles.register.time.fadein");
         int stay = plugin.getConfig().getInt("config.titles.register.time.stay");
         int fadeOut = plugin.getConfig().getInt("config.titles.register.time.fadeout");
-        if (Utils.CMILib) {
+        if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
             plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
@@ -71,7 +70,7 @@ public class TitlesManager {
         int fadeIn = plugin.getConfig().getInt("config.titles.login.time.fadein");
         int stay = plugin.getConfig().getInt("config.titles.login.time.stay");
         int fadeOut = plugin.getConfig().getInt("config.titles.login.time.fadeout");
-        if (Utils.CMILib) {
+        if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
             plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
