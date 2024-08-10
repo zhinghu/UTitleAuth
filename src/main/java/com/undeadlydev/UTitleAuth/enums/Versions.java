@@ -67,7 +67,8 @@ public enum Versions {
     v1_20_5(12005),
     v1_20_6(12006),
     v1_20_x(12010),
-    v1_21_0(12100),
+    v1_21(12100),
+    v1_21_1(12101),
     vUnsupported(1000000);
 
     private int value;
