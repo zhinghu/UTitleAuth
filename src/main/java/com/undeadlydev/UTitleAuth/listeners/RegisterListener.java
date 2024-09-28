@@ -25,7 +25,6 @@ public class RegisterListener implements Listener {
         }
         plugin.getTm().SendTitleOnRegister(p);
         if (plugin.getConfig().getBoolean("config.actionbar.enabled")) {
-            plugin.cancelAc().remove(p.getName());
             plugin.getAc().SendAcOnRegister(p);
         }
         if (plugin.getConfig().getBoolean("config.message.welcome.register.enabled")) {

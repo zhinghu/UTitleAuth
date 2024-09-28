@@ -1,5 +1,6 @@
 package com.undeadlydev.UTitleAuth.managers;
 
+import com.cryptomorin.xseries.messages.ActionBar;
 import com.undeadlydev.UTitleAuth.TitleAuth;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import org.bukkit.entity.Player;
@@ -14,7 +15,13 @@ public class ActionBarManager {
         BukkitTask bukkitTask = (new BukkitRunnable() {
             int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
             public void run() {
+                if (!plugin.getRegisterSecure().contains(player.getUniqueId())) {
+                    ActionBar.clearActionBar(player);
+                    cancel();
+                    return;
+                }
                 if (!plugin.cancelAc().containsKey(player.getName())) {
+                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
@@ -22,7 +29,7 @@ public class ActionBarManager {
                     cancel();
                     return;
                 }
-                plugin.getVc().getReflection().sendActionBar(plugin.getLang().get(player, "actionbar.noregister").replace("<time>", String.valueOf(time)), player);
+                ActionBar.sendActionBar(player, plugin.getLang().get(player, "actionbar.noregister").replace("<time>", String.valueOf(time)));
                 time--;
             }
         }).runTaskTimer(plugin, 0L, 20L);
@@ -35,6 +42,12 @@ public class ActionBarManager {
             @Override
             public void run() {
                 if (!plugin.cancelAc().containsKey(player.getName())) {
+                    ActionBar.clearActionBar(player);
+                    cancel();
+                    return;
+                }
+                if (!plugin.cancelAc().containsKey(player.getName())) {
+                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
@@ -42,7 +55,7 @@ public class ActionBarManager {
                     cancel();
                     return;
                 }
-                plugin.getVc().getReflection().sendActionBar(plugin.getLang().get(player, "actionbar.nologin").replace("<time>", String.valueOf(time)), player);
+                ActionBar.sendActionBar(player, plugin.getLang().get(player, "actionbar.nologin").replace("<time>", String.valueOf(time)));
                 time--;
             }
 
@@ -52,61 +65,19 @@ public class ActionBarManager {
 
     public void SendAcOnPremium(Player player) {
         String message = plugin.getLang().get(player, "actionbar.autologin");
-        new BukkitRunnable() {
-            int time = plugin.getConfig().getInt("config.actionbar.autologin.time.stay");
-            @Override
-            public void run() {
-                if (plugin.getLoginSecure().contains(player.getUniqueId())) {
-                    cancel();
-                    return;
-                }
-                if (time <= 0) {
-                    cancel();
-                    return;
-                }
-                plugin.getVc().getReflection().sendActionBar(message, player);
-                time--;
-            }
-        }.runTaskTimer(this.plugin, 0L, 20L);
+        int time = plugin.getConfig().getInt("config.actionbar.autologin.time.stay");
+        ActionBar.sendActionBar(plugin , player, message, time);
     }
 
     public void SendAcOnRegister(Player player) {
         String message = plugin.getLang().get(player, "actionbar.register");
-        new BukkitRunnable() {
-            int time = plugin.getConfig().getInt("config.actionbar.register.time.stay");
-            @Override
-            public void run() {
-                if (AuthMeApi.getInstance().isRegistered(player.getName()) && AuthMeApi.getInstance().isAuthenticated(player.getPlayer()) || plugin.getRegisterSecure().contains(player.getUniqueId())) {
-                    cancel();
-                    return;
-                }
-                if (time <= 0) {
-                    cancel();
-                    return;
-                }
-                plugin.getVc().getReflection().sendActionBar(message, player);
-                time--;
-            }
-        }.runTaskTimer(this.plugin, 0L, 20L);
+        int time = plugin.getConfig().getInt("config.actionbar.register.time.stay");
+        ActionBar.sendActionBar(plugin , player, message, time);
     }
 
     public void SendAcOnLogin(Player player) {
         String message = plugin.getLang().get(player, "actionbar.login");
-        new BukkitRunnable() {
-            int time = plugin.getConfig().getInt("config.actionbar.login.time.stay");
-            @Override
-            public void run() {
-                if (plugin.getLoginSecure().contains(player.getUniqueId())) {
-                    cancel();
-                    return;
-                }
-                if (time <= 0) {
-                    cancel();
-                    return;
-                }
-                plugin.getVc().getReflection().sendActionBar(message, player);
-                time--;
-            }
-        }.runTaskTimer(this.plugin, 0L, 20L);
+        int time = plugin.getConfig().getInt("config.actionbar.login.time.stay");
+        ActionBar.sendActionBar(plugin , player, message, time);
     }
 }

@@ -1,5 +1,6 @@
 package com.undeadlydev.UTitleAuth.managers;
 
+import com.cryptomorin.xseries.messages.Titles;
 import com.undeadlydev.UTitleAuth.TitleAuth;
 import net.Zrips.CMILib.TitleMessages.CMITitleMessage;
 import org.bukkit.entity.Player;
@@ -18,8 +19,7 @@ public class TitlesManager {
         if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
-            plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
-
+            Titles.sendTitle(player, fadeIn, stay, fadeOut, Title, subTitle);
         }
     }
 
@@ -32,7 +32,7 @@ public class TitlesManager {
             int fadeIn = (0);
             int stay = (999999999);
             int fadeOut = (20);
-            plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
+            Titles.sendTitle(player, fadeIn, stay, fadeOut, Title, subTitle);
         }
     }
 
@@ -45,7 +45,7 @@ public class TitlesManager {
             int fadeIn = (0);
             int stay = (999999999);
             int fadeOut = (20);
-            plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
+            Titles.sendTitle(player, fadeIn, stay, fadeOut, Title, subTitle);
         }
     }
 
@@ -59,7 +59,8 @@ public class TitlesManager {
         if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
-            plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
+            Titles.clearTitle(player);
+            Titles.sendTitle(player, fadeIn, stay, fadeOut, Title, subTitle);
         }
     }
 
@@ -73,8 +74,8 @@ public class TitlesManager {
         if (plugin.getAdm().getCMIAddon()) {
             CMITitleMessage.send(player, Title, subTitle, fadeIn, stay, fadeOut);
         } else {
-            plugin.getVc().getReflection().sendTitle(Title, subTitle, Integer.valueOf(fadeIn), Integer.valueOf(stay), Integer.valueOf(fadeOut), player);
-
+            Titles.clearTitle(player);
+            Titles.sendTitle(player, fadeIn, stay, fadeOut, Title, subTitle);
         }
     }
 }

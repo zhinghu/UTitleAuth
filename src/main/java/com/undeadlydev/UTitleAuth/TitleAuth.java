@@ -2,14 +2,12 @@ package com.undeadlydev.UTitleAuth;
 
 import com.google.common.collect.Sets;
 import com.undeadlydev.UTitleAuth.managers.FileManager;
-import com.undeadlydev.UTitleAuth.controllers.VersionController;
 import com.undeadlydev.UTitleAuth.listeners.*;
 import com.undeadlydev.UTitleAuth.managers.ActionBarManager;
 import com.undeadlydev.UTitleAuth.managers.AddonManager;
 import com.undeadlydev.UTitleAuth.managers.TitlesManager;
 import com.undeadlydev.UTitleAuth.superclass.SpigotUpdater;
 import com.undeadlydev.UTitleAuth.utils.ChatUtils;
-import com.undeadlydev.UTitleAuth.utils.HexUtils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -32,7 +30,6 @@ public class TitleAuth  extends JavaPlugin {
     private AddonManager adm;
     private TitlesManager tm;
     private ActionBarManager ac;
-    private VersionController vc;
     private FileManager lang;
 
     private Set<UUID> SecurePlayerRegister = Sets.newHashSet();
@@ -45,10 +42,6 @@ public class TitleAuth  extends JavaPlugin {
 
     public AddonManager getAdm() {
         return adm;
-    }
-
-    public VersionController getVc() {
-        return vc;
     }
 
     public FileManager getLang() {
@@ -95,7 +88,6 @@ public class TitleAuth  extends JavaPlugin {
         sendLogMessage("&7-----------------------------------");
         getConfig().options().copyDefaults(true);
         saveConfig();
-        vc = new VersionController(this);
         lang = new FileManager("lang", true);
         adm = new AddonManager();
         tm = new TitlesManager();
