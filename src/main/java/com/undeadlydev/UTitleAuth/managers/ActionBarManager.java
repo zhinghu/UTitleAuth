@@ -16,12 +16,10 @@ public class ActionBarManager {
             int time = TitleAuth.getOtherConfig().getInt("settings.restrictions.timeout");
             public void run() {
                 if (!plugin.getRegisterSecure().contains(player.getUniqueId())) {
-                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
                 if (!plugin.cancelAc().containsKey(player.getName())) {
-                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
@@ -42,12 +40,10 @@ public class ActionBarManager {
             @Override
             public void run() {
                 if (!plugin.cancelAc().containsKey(player.getName())) {
-                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
                 if (!plugin.cancelAc().containsKey(player.getName())) {
-                    ActionBar.clearActionBar(player);
                     cancel();
                     return;
                 }
@@ -66,18 +62,21 @@ public class ActionBarManager {
     public void SendAcOnPremium(Player player) {
         String message = plugin.getLang().get(player, "actionbar.autologin");
         int time = plugin.getConfig().getInt("config.actionbar.autologin.time.stay");
+        ActionBar.clearActionBar(player);
         ActionBar.sendActionBar(plugin , player, message, time);
     }
 
     public void SendAcOnRegister(Player player) {
         String message = plugin.getLang().get(player, "actionbar.register");
         int time = plugin.getConfig().getInt("config.actionbar.register.time.stay");
+        ActionBar.clearActionBar(player);
         ActionBar.sendActionBar(plugin , player, message, time);
     }
 
     public void SendAcOnLogin(Player player) {
         String message = plugin.getLang().get(player, "actionbar.login");
         int time = plugin.getConfig().getInt("config.actionbar.login.time.stay");
+        ActionBar.clearActionBar(player);
         ActionBar.sendActionBar(plugin , player, message, time);
     }
 }
